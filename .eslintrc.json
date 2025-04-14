@@ -1,0 +1,26 @@
+{
+	"root": true,
+	"extends": [
+		"wikimedia/client",
+		"wikimedia/jquery",
+		"wikimedia/mediawiki"
+	],
+	"globals": {
+		"ext": "readonly",
+		"mw": "readonly",
+		"OO": "readonly",
+		"OOJSPlus": "readonly",
+		"ve": "readonly"
+	},
+	"rules": {
+		"es-x/no-array-prototype-includes": "off",
+		"es-x/no-async-functions": "off",
+		"es-x/no-nullish-coalescing-operators": "off",
+		"es-x/no-string-prototype-matchall": "off",
+		"no-jquery/no-global-selector": "off",
+		"no-jquery/variable-pattern": "off"
+	},
+	"parserOptions": {
+		"ecmaVersion": 2020
+	}
+}
