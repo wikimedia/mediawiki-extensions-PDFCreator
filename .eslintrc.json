@@ -17,6 +17,7 @@
 		"es-x/no-async-functions": "off",
 		"es-x/no-nullish-coalescing-operators": "off",
 		"es-x/no-string-prototype-matchall": "off",
+		"no-jquery/no-done-fail": "off",
 		"no-jquery/no-global-selector": "off",
 		"no-jquery/variable-pattern": "off"
 	},
