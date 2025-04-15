@@ -14,7 +14,7 @@ ext.pdfcreator.ui.dialog.EditDialog = function ( cfg ) {
 	ext.pdfcreator.ui.dialog.EditDialog.parent.call( this, cfg );
 	this.data = cfg.data || {};
 	this.params = cfg.params || {};
-	this.mode = cfg.mode || '';
+	this.mode = cfg.mode || 'create';
 	this.data.general.mode = this.mode;
 	this.sectionPages = {
 		header: 'Header',
@@ -27,7 +27,7 @@ ext.pdfcreator.ui.dialog.EditDialog = function ( cfg ) {
 OO.inheritClass( ext.pdfcreator.ui.dialog.EditDialog, OO.ui.ProcessDialog );
 
 ext.pdfcreator.ui.dialog.EditDialog.static.name = 'PDFEditDialog';
-ext.pdfcreator.ui.dialog.EditDialog.static.title = mw.message( 'pdfcreator-template-edit-dlg-title' ).text();
+ext.pdfcreator.ui.dialog.EditDialog.static.title = mw.message( 'pdfcreator-template-edit-dlg-title-create' ).text();
 ext.pdfcreator.ui.dialog.EditDialog.static.size = 'large';
 ext.pdfcreator.ui.dialog.EditDialog.static.actions = [
 	{
@@ -174,6 +174,9 @@ ext.pdfcreator.ui.dialog.EditDialog.prototype.getSetupProcess = function ( data 
 		.next( function () {
 			// Prevent flickering, disable all actions before init is done
 			this.actions.setMode( 'INVALID' );
+			if ( this.mode === 'edit' ) {
+				this.title.setLabel( mw.message( 'pdfcreator-template-edit-dlg-title' ).text() );
+			}
 		}, this );
 };
 

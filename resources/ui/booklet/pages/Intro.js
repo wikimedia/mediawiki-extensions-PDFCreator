@@ -17,7 +17,7 @@ OO.inheritClass( ext.pdfcreator.ui.booklet.pages.Intro,
 
 ext.pdfcreator.ui.booklet.pages.Intro.prototype.getElements = function () {
 	this.useDefaultBg = new OO.ui.CheckboxInputWidget( {
-		selected: !this.data.useDefaultBg || false
+		selected: this.data.useDefaultBg || false
 	} );
 	this.useDefaultBg.connect( this, {
 		change: 'toggleUploadPanel'
@@ -125,6 +125,10 @@ ext.pdfcreator.ui.booklet.pages.Intro.prototype.getOptionsData = function () {
 		return this.backgroundImageInput.getValue();
 	}
 	return '';
+};
+
+ext.pdfcreator.ui.booklet.pages.Intro.prototype.setUploadedImage = function ( filename ) {
+	this.backgroundImageInput.setValue( filename );
 };
 
 ext.pdfcreator.ui.booklet.pages.Intro.prototype.toggleUploadPanel = function ( selected ) {
