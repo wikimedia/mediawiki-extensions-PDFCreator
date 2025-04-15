@@ -73,9 +73,9 @@ class OpenHtml2Pdf implements IExportBackend {
 		file_put_contents( $tmpHtmlFilename, $resources->getHtml() );
 
 		$this->doUpload( $token, [ $tmpHtmlFilename ] );
-		/* if ( !isset( $params['debug'] ) ) {
+		if ( !isset( $params['debug'] ) ) {
 			unlink( $tmpHtmlFilename );
-		} */
+		}
 
 		$postData = $this->getInitialRendererPostData( $token );
 
