@@ -51,11 +51,14 @@ ext.pdfcreator.ui.booklet.pages.General.prototype.getElements = function () {
 		]
 	} );
 
+	this.nsPrefixInput = new OO.ui.CheckboxInputWidget( {
+		selected: this.data.options.nsPrefix ?? true
+	} );
 	this.TOCSelectInput = new OO.ui.CheckboxInputWidget( {
 		selected: this.data.options[ 'embed-page-toc' ] ?? true
 	} );
-	this.nsPrefixInput = new OO.ui.CheckboxInputWidget( {
-		selected: this.data.options.nsPrefix ?? true
+	this.noRedirect = new OO.ui.CheckboxInputWidget( {
+		selected: this.data.options[ 'no-redirect' ] ?? false
 	} );
 	this.attachmentInput = new OO.ui.CheckboxInputWidget( {
 		selected: this.data.options.attachments ?? true
@@ -69,11 +72,16 @@ ext.pdfcreator.ui.booklet.pages.General.prototype.getElements = function () {
 		value: this.data.desc
 	} );
 
+	let headingMsg = mw.message( 'pdfcreator-template-edit-dlg-general-page-heading' ).text();
+	if ( this.data.mode === 'edit' ) {
+		headingMsg = mw.message( 'pdfcreator-template-edit-dlg-general-page-heading-edit' ).text();
+	}
+
 	return [
 		new OO.ui.FieldsetLayout( {
 			items: [
 				new OO.ui.LabelWidget( {
-					label: mw.message( 'pdfcreator-template-edit-dlg-general-page-heading' ).text(),
+					label: headingMsg,
 					classes: [ 'pdfcreator-edit-heading' ]
 				} ),
 				new OO.ui.LabelWidget( {
@@ -96,14 +104,19 @@ ext.pdfcreator.ui.booklet.pages.General.prototype.getElements = function () {
 			]
 		} ),
 		new OO.ui.FieldsetLayout( {
+			classes: [ 'pdfcreator-general-properties' ],
 			label: mw.message( 'pdfcreator-template-edit-dlg-general-properties-label' ).text(),
 			items: [
+				new OO.ui.FieldLayout( this.nsPrefixInput, {
+					label: mw.message( 'pdfcreator-template-edit-dlg-general-ns-prefix-label' ).text(),
+					align: 'inline'
+				} ),
 				new OO.ui.FieldLayout( this.TOCSelectInput, {
 					label: mw.message( 'pdfcreator-template-edit-dlg-general-toc-label' ).text(),
 					align: 'inline'
 				} ),
-				new OO.ui.FieldLayout( this.nsPrefixInput, {
-					label: mw.message( 'pdfcreator-template-edit-dlg-general-ns-prefix-label' ).text(),
+				new OO.ui.FieldLayout( this.noRedirect, {
+					label: mw.message( 'pdfcreator-template-edit-dlg-general-redirect-label' ).text(),
 					align: 'inline'
 				} ),
 				new OO.ui.FieldLayout( this.attachmentInput, {
@@ -135,7 +148,8 @@ ext.pdfcreator.ui.booklet.pages.General.prototype.getData = function () {
 			'embed-page-toc': this.TOCSelectInput.isSelected(),
 			nsPrefix: this.nsPrefixInput.isSelected(),
 			attachments: this.attachmentInput.isSelected(),
-			'suppress-links': this.disableLinksInput.isSelected()
+			'suppress-links': this.disableLinksInput.isSelected(),
+			'no-redirect': this.noRedirect.isSelected()
 		},
 		desc: this.descInput.getValue()
 	};

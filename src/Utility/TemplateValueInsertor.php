@@ -285,6 +285,12 @@ class TemplateValueInsertor {
 		$introText = $xpath->query( './/div[contains(@class, "pdfcreator-intro-text")]', $div );
 		if ( $introText->length === 1 ) {
 			$introText->item( 0 )->nodeValue = $introData['text'];
+		} else {
+			if ( $introData['text'] ) {
+				$text = $doc->createElement( 'div', $introData['text'] );
+				$text->setAttribute( 'class', 'pdfcreator-intro-text' );
+				$div->appendChild( $text );
+			}
 		}
 
 		$this->slotData['intro'] = $this->extractHtmlBodyContent( $doc );
