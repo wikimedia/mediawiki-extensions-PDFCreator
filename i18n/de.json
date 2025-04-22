@@ -2,10 +2,11 @@
 	"@metadata": {
 		"authors": [
 			"Daniel Vogel",
-			"Miriam Schlindwein"
+			"Miriam Schlindwein",
+			"Brettchenweber"
 		]
 	},
-	"pdfcreator-desc": "Erstellt PDF Dateien von Wikiseiten",
+	"pdfcreator-desc": "Erstellt PDF-Dateien von Wikiseiten",
 	"pdfcreator-tab-panel-header-label": "Kopfzeile",
 	"pdfcreator-tab-panel-body-label": "Inhalt",
 	"pdfcreator-tab-panel-footer-label": "Fußzeile",
@@ -44,7 +45,7 @@
 	"pdfcreator-pageparam-export-date": "Zeigt das Exportdatum an",
 	"pdfcreator-pageparam-export-time": "Zeigt die Exportzeit an",
 	"pdfcreator-pageparam-title": "Zeigt den Seitentitel an",
-	"pdfcreator-pageparam-currentpagenumber": "Zeigt die Aktuelle Seitenzahl",
+	"pdfcreator-pageparam-currentpagenumber": "Zeigt die aktuelle Seitenzahl",
 	"pdfcreator-pageparam-totalpagescount": "Zeigt die Anzahl aller Seiten",
 	"pdfcreator-pageparam-logo": "Wiki Logo einfügen",
 	"pdfcreator-tag-pagebreak-label": "Seitenumbruch",
@@ -58,7 +59,7 @@
 	"pdfcreator-export-pdf-inspector-export-mode-label": "Exportmodus",
 	"pdfcreator-export-pdf-inspector-export-template-label": "PDF-Vorlage",
 	"pdfcreator-export-pdf-inspector-export-link-label": "Text für Export-Link",
-	"pdfcreator-export-pdf-inspector-export-tool-title": "PDF Export-Link",
+	"pdfcreator-export-pdf-inspector-export-tool-title": "PDF-Export-Link",
 	"pdfcreator-page-break-tool-title": "Seitenumbruch",
 	"pdfcreator-help-table-column-param-key": "Parameter",
 	"pdfcreator-help-table-column-param-desc": "Beschreibung",
@@ -71,7 +72,7 @@
 	"pdfcreator-template-edit-dlg-action-save": "Speichern",
 	"pdfcreator-template-edit-dlg-action-upload": "Hochladen",
 	"pdfcreator-template-edit-dlg-action-back": "Zurück",
-	"pdfcreator-template-edit-dlg-upload-error-unhandled": "Während dem Hochladen ist ein unerwarteter Fehler aufgetreten",
+	"pdfcreator-template-edit-dlg-upload-error-unhandled": "Beim Hochladen ist ein unerwarteter Fehler aufgetreten",
 	"pdfcreator-template-edit-dlg-upload-error-duplicate": "Eine identische Datei zu dieser Datei ($1) ist vor kurzem gelöscht worden",
 	"pdfcreator-select-template-widget-configure-btn-label": "Konfigurieren",
 	"pdfcreator-template-edit-dlg-footer-page-heading": "Fußzeile konfigurieren",
