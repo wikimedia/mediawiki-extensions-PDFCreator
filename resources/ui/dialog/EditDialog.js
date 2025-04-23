@@ -298,6 +298,7 @@ ext.pdfcreator.ui.dialog.EditDialog.prototype.getActionProcess = function ( acti
 					} ).fail( ( errorMsg ) => {
 						this.showErrors( new OO.ui.Error( errorMsg, { recoverable: false } ) );
 						dfd.reject();
+						this.popPending();
 					} );
 					return dfd.promise();
 				}
