@@ -17,7 +17,7 @@ OO.inheritClass( ext.pdfcreator.ui.booklet.pages.Intro,
 
 ext.pdfcreator.ui.booklet.pages.Intro.prototype.getElements = function () {
 	this.useDefaultBg = new OO.ui.CheckboxInputWidget( {
-		selected: this.data.useDefaultBg || false
+		selected: !this.data.useDefaultBg || false
 	} );
 	this.useDefaultBg.connect( this, {
 		change: 'toggleUploadPanel'
