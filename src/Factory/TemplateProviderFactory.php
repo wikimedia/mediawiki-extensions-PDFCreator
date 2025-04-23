@@ -34,7 +34,6 @@ class TemplateProviderFactory implements LoggerAwareInterface {
 	 * @return ITemplateProvider|null
 	 */
 	public function getTemplateProvider( string $name = '' ): ?ITemplateProvider {
-		$name = $this->config->get( 'PDFCreatorTemplateProvider' );
 		$registry = ExtensionRegistry::getInstance()->getAttribute(
 			'PDFCreatorTemplateProvider'
 		);
