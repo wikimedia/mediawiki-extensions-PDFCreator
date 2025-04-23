@@ -146,6 +146,14 @@
 	}
 }
 
+.pdfcreator-type-intro {
+	page: coverpage;
+	background-size: 21cm;
+	width: 21cm;
+	height: 29.7cm;
+	background-repeat: no-repeat;
+}
+
 .pdfcreator-intro-cover-cnt {
 	position: absolute;
 	top: 12.5cm;

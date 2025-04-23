@@ -113,6 +113,10 @@ ext.pdfcreator = {
 				saveTextareas();
 				return;
 			}
+			if ( typeof htmlEditors[ editor ].getValue === 'undefined' ) {
+				saveTextareas();
+				return;
+			}
 			if ( htmlEditors[ editor ].getValue() === '' ) {
 				continue;
 			}
