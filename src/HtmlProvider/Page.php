@@ -95,6 +95,7 @@ class Page extends Raw {
 		$pageParams = array_merge(
 			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
 			$this->pageParamsFactory->getParams( $title->toPageIdentity(), $context->getUserIdentity() ),
+			$template->getParams()
 		);
 		$pageParams['title'] = $pageSpec->getLabel();
 

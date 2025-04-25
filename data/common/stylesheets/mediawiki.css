@@ -22,7 +22,6 @@ body {
 	margin-right: auto;
 }
 
-#toc,
 .toc {
 	padding: 0.3cm 0.5cm 0cm 0.5cm;
 	margin-bottom: 1cm;
@@ -31,13 +30,11 @@ body {
 	page-break-after: always;
 }
 
-#toc .toctitle,
 .toc .toctitle {
 	text-align: left;
 	margin-bottom: 0.5cm;
 }
 
-#toc .toctitle h2,
 .toc .toctitle h2 {
 	font-size: 14pt;
 	font-weight: normal;
@@ -47,7 +44,6 @@ body {
 	border-bottom: none;
 }
 
-#toc ul,
 .toc ul {
 	margin-left: 0;
 	padding-left: 0;
@@ -66,19 +62,17 @@ body {
 	color: #0060DF;
 }
 
-#toc ul ul,
 .toc ul ul {
 	margin-left: 0.1cm;
 }
 
-#toc a:after,
 .toc a:after {
 	color: #0060DF;
 	content: leader('.') target-counter(attr(href), page);
 }
 
 /* headlines */
-#firstHeading {
+.firstHeading {
 	font-weight: 500;
 	font-size: 14pt;
 	border-bottom: none;

@@ -68,6 +68,7 @@ class Raw implements IHtmlProvider {
 
 		$pageParams = array_merge(
 			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
+			$template->getParams()
 		);
 		$pageParams['title'] = $pageSpec->getLabel();
 

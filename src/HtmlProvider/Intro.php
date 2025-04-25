@@ -39,6 +39,7 @@ class Intro extends Raw {
 		$title = $this->titleFactory->newFromPageIdentity( $context->getPageIdentity() );
 		$pageParams = array_merge(
 			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
+			$template->getParams()
 		);
 		if ( !isset( $pageParams['title'] ) ) {
 			$pageParams['title'] = $title->getSubpageText();
