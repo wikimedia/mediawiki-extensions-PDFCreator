@@ -2,6 +2,7 @@
 
 namespace MediaWiki\Extension\PDFCreator;
 
+use MediaWiki\Extension\PDFCreator\Factory\TemplateProviderFactory;
 use MediaWiki\Html\Html;
 use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleFactory;
@@ -25,12 +26,16 @@ class PDFCreatorUtil {
 	/** @var TitleFactory */
 	private $titleFactory;
 
+	/** @var TemplateProviderFactory */
+	private $templateProviderFactory;
+
 	/**
 	 *
 	 * @param TitleFactory $titleFactory
 	 */
-	public function __construct( TitleFactory $titleFactory ) {
+	public function __construct( TitleFactory $titleFactory, TemplateProviderFactory $templateProviderFactory ) {
 		$this->titleFactory = $titleFactory;
+		$this->templateProviderFactory = $templateProviderFactory;
 	}
 
 	/**
@@ -52,6 +57,13 @@ class PDFCreatorUtil {
 			$templates[] = $subpage->getSubpageText();
 		}
 		return $templates;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAvailableTemplateNames(): array {
+		return $this->templateProviderFactory->getAvailableTemplateNames();
 	}
 
 	/**

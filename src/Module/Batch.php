@@ -236,7 +236,8 @@ class Batch implements IExportModule, LoggerAwareInterface {
 		);
 
 		// do export
-		$backend = $this->exportBackendFactory->getBackend( $specification->getBackend() );
+		$backendName = $this->config->get( 'PDFCreatorBackend' );
+		$backend = $this->exportBackendFactory->getBackend( $backendName );
 		if ( $backend instanceof IExportBackend === false ) {
 			$this->logger->error( 'Invalid export backend' );
 
@@ -362,28 +363,27 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	 * @return Template|null
 	 */
 	protected function getTemplate( ExportSpecification $specification, ExportContext $context ): ?Template {
-		$templateProvider = $this->templateProviderFactory->getTemplateProvider(
-			$specification->getTemplateProvider()
-		);
+		$templateName = '';
+		if ( $specification->getTemplateName() ) {
+			$templateName = $specification->getTemplateName();
+		} else {
+			$supportedTemplateNames = $this->templateProviderFactory->getAvailableTemplateNames();
+			if ( count( $supportedTemplateNames ) > 0 ) {
+				$templateName = $supportedTemplateNames[0];
+			}
+		}
+		if ( $templateName === '' ) {
+			return null;
+		}
 
+		$templateProvider = $this->templateProviderFactory->getTemplateProviderFor( $templateName );
 		if ( $templateProvider instanceof ITemplateProvider === false ) {
 			// TODO: Add log
 			// TODO: Throw exception
 			return null;
 		}
 
-		$supportedTemplateNames = $templateProvider->getTemplateNames();
-		if ( $specification->getTemplateName()
-			&& in_array( $specification->getTemplateName(), $supportedTemplateNames )
-		) {
-			$name = $specification->getTemplateName();
-		} elseif ( count( $supportedTemplateNames ) > 0 ) {
-			$name = $supportedTemplateNames[0];
-		} else {
-			return null;
-		}
-
-		$template = $templateProvider->getTemplate( $context, $name );
+		$template = $templateProvider->getTemplate( $context, $templateName );
 		return $template;
 	}
 

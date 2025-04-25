@@ -34,9 +34,7 @@ class TemplateProviderFactory implements LoggerAwareInterface {
 	 * @return ITemplateProvider|null
 	 */
 	public function getTemplateProvider( string $name = '' ): ?ITemplateProvider {
-		$registry = ExtensionRegistry::getInstance()->getAttribute(
-			'PDFCreatorTemplateProvider'
-		);
+		$registry = $this->getTemplateProviderRegistry();
 
 		// TODO: Is PDFCreatorTemplateProvider requried?
 		if ( $name === '' ) {
@@ -81,6 +79,58 @@ class TemplateProviderFactory implements LoggerAwareInterface {
 		}
 
 		return $provider;
+	}
+
+	/**
+	 * @param string $templateName
+	 * @return ITemplateProvider|null
+	 */
+	public function getTemplateProviderFor( string $templateName = '' ): ?ITemplateProvider {
+		$registry = $this->getTemplateProviderRegistry();
+		foreach ( $registry as $spec ) {
+			$provider = $this->objectFactory->createObject( $spec, [] );
+			if ( $provider instanceof ITemplateProvider === false ) {
+				continue;
+			}
+			$templateNames = $provider->getTemplateNames();
+			if ( in_array( $templateName, $templateNames ) ) {
+				return $provider;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getAvailableTemplateNames(): array {
+		$templateNames = [];
+
+		$registry = $this->getTemplateProviderRegistry();
+		foreach ( $registry as $spec ) {
+			$provider = $this->objectFactory->createObject( $spec, [] );
+			if ( $provider instanceof ITemplateProvider === false ) {
+				continue;
+			}
+			$templateNames = array_merge(
+				$templateNames,
+				$provider->getTemplateNames()
+			);
+		}
+
+		return array_unique( $templateNames );
+	}
+
+	/**
+	 * @return array
+	 */
+	private function getTemplateProviderRegistry(): array {
+		$registry = ExtensionRegistry::getInstance()->getAttribute(
+			'PDFCreatorTemplateProvider'
+		);
+
+		return $registry;
 	}
 
 	/**
