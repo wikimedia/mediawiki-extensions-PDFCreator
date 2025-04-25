@@ -37,12 +37,14 @@ class ExportSpecificationFactory {
 			$module = 'batch';
 		}
 
+		// unused
 		if ( isset( $spec['template-provider'] ) ) {
 			$templateProvider = $spec['template-provider'];
 		} else {
 			$templateProvider = 'wiki';
 		}
 
+		// unused
 		if ( isset( $spec['backend'] ) ) {
 			$backend = $spec['backend'];
 		} else {

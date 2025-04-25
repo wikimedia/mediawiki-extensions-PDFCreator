@@ -133,8 +133,10 @@ return [
 		return new PDFCreator( $ModuleFactory );
 	},
 	'PDFCreator.Util' => static function ( MediaWikiServices $services ): PDFCreatorUtil {
+		$templateProviderFactory = $services->getService( 'PDFCreator.TemplateProviderFactory' );
 		return new PDFCreatorUtil(
-			$services->getTitleFactory()
+			$services->getTitleFactory(),
+			$templateProviderFactory
 		);
 	},
 	'PDFCreator.ExportModeFactory' => static function ( MediaWikiServices $services ): ModeFactory {

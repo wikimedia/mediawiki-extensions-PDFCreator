@@ -14,7 +14,7 @@ class ClientConfig {
 		$util = MediaWikiServices::getInstance()->get( 'PDFCreator.Util' );
 
 		return [
-			'templates' => $util->getAllWikiTemplates()
+			'templates' => $util->getAvailableTemplateNames()
 		];
 	}
 

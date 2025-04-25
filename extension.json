@@ -577,6 +577,9 @@
 		}
 	],
 	"config": {
+		"PDFCreatorBackend": {
+			"value": "open-html-2-pdf"
+		},
 		"PDFCreatorToolbarOffset": {
 			"value": 123,
 			"public": true
