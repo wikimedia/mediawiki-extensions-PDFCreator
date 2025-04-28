@@ -174,7 +174,6 @@ class TemplateValueExtractor {
 
 		// Check if runningfooterfix is set
 		$tds = $this->validateAndModifyTable( $xpath, 'pdfcreator-runningfooterfix', 3 );
-		error_log( var_export( $tds ) );
 		if ( !$tds ) {
 			$this->errors['footer'] = 'pdfcreator-edit-template-values-footer-error';
 			return false;
@@ -286,19 +285,16 @@ class TemplateValueExtractor {
 	private function validateAndModifyTable( DOMXPath $xpath, string $containerClass, int $expectedTdCount ) {
 		$div = $xpath->query( "//div[contains(@class, '{$containerClass}')]" );
 		if ( !$div || $div->length !== 1 ) {
-			error_log( "div" );
 			return false;
 		}
 
 		$table = $xpath->query( ".//table", $div->item( 0 ) );
 		if ( !$table || $table->length !== 1 ) {
-			error_log( "table" );
 			return false;
 		}
 
 		$tr = $xpath->query( ".//tr", $table->item( 0 ) );
 		if ( !$tr || $tr->length !== 1 ) {
-			error_log( "tr" );
 			return false;
 		}
 
@@ -306,7 +302,6 @@ class TemplateValueExtractor {
 		if ( $tds->length === $expectedTdCount ) {
 			return $tds;
 		}
-		error_log( "tds" );
 		return false;
 	}
 
