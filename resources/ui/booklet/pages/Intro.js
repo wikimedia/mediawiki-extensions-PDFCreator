@@ -53,6 +53,7 @@ ext.pdfcreator.ui.booklet.pages.Intro.prototype.getElements = function () {
 
 	this.coverText = new OO.ui.MultilineTextInputWidget( {
 		padded: true,
+		rows: 7,
 		value: this.data.coverText || ''
 	} );
 
