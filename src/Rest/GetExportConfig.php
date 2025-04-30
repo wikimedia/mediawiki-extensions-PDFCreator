@@ -59,10 +59,6 @@ class GetExportConfig extends SimpleHandler {
 			$modules = array_merge( $modules, $modeModules );
 			$labels[ $mode->getKey() ] = $context->msg( $mode->getLabel() )->text();
 			$defaultTemplate = $mode->getDefaultTemplate();
-			if ( empty( $defaultTemplate ) ) {
-				return $this->getResponseFactory()->createHttpError( 404,
-					[ 'Default template for mode ' . $mode . 'with name ' . $defaultTemplate . ' does not exist' ] );
-			}
 			$defaultTemplates[ $mode->getKey() ] = $defaultTemplate;
 		}
 
