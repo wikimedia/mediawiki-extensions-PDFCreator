@@ -35,6 +35,7 @@ use MediaWiki\Extension\PDFCreator\Utility\Template;
 use MediaWiki\Extension\PDFCreator\Utility\TemplateResources;
 use MediaWiki\Extension\PDFCreator\Utility\TocBuilder;
 use MediaWiki\Linker\LinkTarget;
+use MediaWiki\Message\Message;
 use MediaWiki\Page\PageProps;
 use MediaWiki\Page\RedirectLookup;
 use MediaWiki\Title\Title;
@@ -101,6 +102,12 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	/** @var string */
 	protected $docTitle;
 
+	/** @var Template */
+	protected $template;
+
+	/** @var string */
+	protected $workspace;
+
 	/**
 	 * @param PageSpecFactory $pageSpecFactory
 	 * @param ExportPageFactory $exportPageFactory
@@ -161,7 +168,9 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	 */
 	public function execute( ExportSpecification $specification, ExportContext $context ): ExportResult {
 		// relevant title
-		$relevantTitle = $this->getRelevantTitle( $specification->getPageSpecs(), $context );
+		$relevantTitle = $this->getRelevantTitle(
+			$specification->getPageSpecs(), $context, $specification->getParams()
+		);
 		if ( !$relevantTitle ) {
 			$exportStatus = new ExportStatus( false, 'Invalid relevant title' );
 			return $this->getExportResult( $exportStatus );
@@ -171,31 +180,32 @@ class Batch implements IExportModule, LoggerAwareInterface {
 		}
 
 		/** workspace for temporary files */
-		$workspace = $this->getWorkspace( $relevantTitle->getPrefixedDBkey() );
+		$this->workspace = $this->getWorkspace( $relevantTitle->getPrefixedDBkey() );
 
-		$template = $this->getTemplate( $specification, $context );
-		if ( $template instanceof Template === false ) {
+		$this->template = $this->getTemplate( $specification, $context );
+		if ( $this->template instanceof Template === false ) {
 			$this->logger->error( 'Invalid template' );
 
 			$exportStatus = new ExportStatus( false, 'Invalid template' );
 			return $this->getExportResult( $exportStatus );
 		}
 
-		$templateResources = $template->getResources();
+		$templateResources = $this->template->getResources();
 		$stylesheets = $this->getStylesheets( $templateResources, $context );
 		$styleblocks = $this->getStyleblocks( $templateResources, $context );
 		$images = $templateResources->getImagePaths();
 		$attachments = [];
 
 		$optionParams = array_merge(
-			$template->getOptions(),
+			$this->template->getOptions(),
 			$specification->getOptions()
 		);
 
 		// prepare pages
 		/** @var ExportPage[] */
 		$pages = $this->getPages(
-			$specification->getPageSpecs(), $optionParams, $template, $context, $workspace
+			$specification->getPageSpecs(), $optionParams, $this->template, $context,
+			$this->workspace, $specification->getParams()
 		);
 
 		// add toc page
@@ -205,19 +215,23 @@ class Batch implements IExportModule, LoggerAwareInterface {
 		) {
 			$embedPageToc = true;
 		}
-		$this->addTocPage( $pages, $context, $embedPageToc );
+		$this->addTocPage( $pages, $context, $embedPageToc, $this->template );
 
 		// add intro page
-		if ( $template->getIntro() !== '' ) {
-			$intro = new PageSpec( 'intro' );
-			$introPage = $this->exportPageFactory->getPageFromSpec( $intro, $template, $context, $workspace );
+		if ( $this->template->getIntro() !== '' ) {
+			$intro = new PageSpec( 'intro', $this->docTitle );
+			$introPage = $this->exportPageFactory->getPageFromSpec(
+				$intro, $this->template, $context, $this->workspace
+			);
 			array_unshift( $pages, $introPage );
 		}
 
 		// add outro page
-		if ( $template->getOutro() !== '' ) {
-			$outro = new PageSpec( 'outro' );
-			$outroPage = $this->exportPageFactory->getPageFromSpec( $outro, $template, $context, $workspace );
+		if ( $this->template->getOutro() !== '' ) {
+			$outro = new PageSpec( 'outro', $this->docTitle );
+			$outroPage = $this->exportPageFactory->getPageFromSpec(
+				$outro, $this->template, $context, $this->workspace
+			);
 			$pages[] = $outroPage;
 		}
 
@@ -262,7 +276,7 @@ class Batch implements IExportModule, LoggerAwareInterface {
 		}
 
 		$targetResult = $target->execute( $pdfData, $specification->getParams() );
-		$status = rmdir( $workspace );
+		$status = rmdir( $this->workspace );
 
 		$exportStatus = new ExportStatus( true );
 		return $this->getExportResult( $exportStatus, $targetResult );
@@ -292,9 +306,10 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	/**
 	 * @param PageSpec[] $pages
 	 * @param ExportContext $context
+	 * @param array $params
 	 * @return Title|null
 	 */
-	protected function getRelevantTitle( array $pages, ExportContext $context ): ?Title {
+	protected function getRelevantTitle( array $pages, ExportContext $context, array $params = [] ): ?Title {
 		$title = null;
 		$label = '';
 		if ( $context->getPageIdentity() !== null ) {
@@ -324,11 +339,7 @@ class Batch implements IExportModule, LoggerAwareInterface {
 			$title = $this->titleFactory->newFromLinkTarget( $redirectTarget );
 		}
 
-		if ( $label !== '' ) {
-			$this->docTitle = $label;
-		} else {
-			$this->docTitle = $title->getText();
-		}
+		$this->docTitle = $this->getDocumentTitle( $title, $params, $label );
 
 		return $title;
 	}
@@ -336,13 +347,22 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	/**
 	 * @param Title $relevantTitle
 	 * @param array $params
+	 * @param string $label
 	 * @return string
 	 */
-	protected function getDocumentTitle( Title $relevantTitle, array $params ): string {
-		$docTitle = $relevantTitle->getPrefixedText();
+	protected function getDocumentTitle( Title $relevantTitle, array $params, string $label = '' ): string {
 		if ( isset( $params['title'] ) ) {
 			$docTitle = $params['title'];
+		} elseif ( $label !== '' ) {
+			$docTitle = $label;
+		} elseif (
+			isset( $params['title-show-namespace'] ) && BoolValueGet::from( $params['title-show-namespace'] ) === true
+		) {
+			$docTitle = $relevantTitle->getPrefixedText();
+		} else {
+			$docTitle = $relevantTitle->getText();
 		}
+
 		return $docTitle;
 	}
 
@@ -563,10 +583,18 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	 * @param bool $embedPageToc
 	 * @return void
 	 */
-	protected function addTocPage( array &$pages, ExportContext $context, bool $embedPageToc = false ): void {
+	protected function addTocPage(
+		array &$pages, ExportContext $context, bool $embedPageToc = false
+	): void {
 		if ( count( $pages ) > 1 ) {
 			$tocPageBuilder = new TocBuilder( $this->titleFactory );
-			$pages = $tocPageBuilder->execute( $pages, $embedPageToc );
+			$html = $tocPageBuilder->getHtml( $pages, $embedPageToc, $this->docTitle );
+			$labelMsg = Message::newFromKey( 'pdfcreator-toc-page-label' );
+			$pageSpec = new PageSpec( 'raw', $labelMsg->text(), '', null, [
+				'content' => $html
+			] );
+			$page = $this->exportPageFactory->getPageFromSpec( $pageSpec, $this->template, $context, $this->workspace );
+			array_unshift( $pages, $page );
 		}
 	}
 

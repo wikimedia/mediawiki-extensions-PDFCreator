@@ -89,6 +89,10 @@ class Raw implements IHtmlProvider {
 			$workspace, $template, $wrapper, $pageParams );
 
 		$pageParams['content'] = $this->getPageTitle( $pageSpec, $pageParams['title'] );
+		$params = $pageSpec->getParams();
+		if ( isset( $pageParams['content'] ) ) {
+			$pageParams['content'] .= $params['content'];
+		}
 		$this->addPageContent( $pageSpec, $title, $workspace, $template, $wrapper, $pageParams );
 
 		$body->appendChild( $wrapper );

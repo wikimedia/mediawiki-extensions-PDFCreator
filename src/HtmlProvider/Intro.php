@@ -41,9 +41,7 @@ class Intro extends Raw {
 			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
 			$template->getParams()
 		);
-		if ( !isset( $pageParams['title'] ) ) {
-			$pageParams['title'] = $title->getSubpageText();
-		}
+		$pageParams['title'] = $pageSpec->getLabel();
 
 		$classes = [
 			'pdfcreator-page',
