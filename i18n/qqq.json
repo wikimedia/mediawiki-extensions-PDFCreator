@@ -148,5 +148,8 @@
 	"pdfcreator-template-edit-dlg-intro-file-select-label": "File select widget label to select background image for intro from wiki",
 	"pdfcreator-template-edit-dlg-intro-custom-file-select": "Label for checkbox to use custom background image in document preface",
 	"pdfcreator-template-edit-dlg-title-create": "Title of the dialog for creating PDF templates",
-	"pdfcreator-template-edit-dlg-general-page-heading-edit": "Heading for the general settings page in the template edit dialog"
+	"pdfcreator-template-edit-dlg-general-page-heading-edit": "Heading for the general settings page in the template edit dialog",
+	"pdfcreator-dump-namespaces-mail-body-text": "Text for a status email after maintenance script run\nParameters:\n* $1 - sitename\n* $2 - timestamp",
+	"pdfcreator-dump-namespaces-mail-body-text-done": "Status message in case of successful export",
+	"pdfcreator-dump-namespaces-mail-body-text-fail": "Status message in case of failed export"
 }
