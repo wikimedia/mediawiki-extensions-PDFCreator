@@ -3,7 +3,8 @@
 		"authors": [
 			"Daniel Vogel",
 			"Miriam Schlindwein",
-			"Brettchenweber"
+			"Brettchenweber",
+			"Mschlindwein"
 		]
 	},
 	"pdfcreator-desc": "Erstellt PDF-Dateien von Wikiseiten",
@@ -106,7 +107,7 @@
 	"pdfcreator-template-edit-dlg-intro-upload-btn-label": "Bild für den Hintergrund auf dieser Seite hochladen",
 	"pdfcreator-template-edit-dlg-intro-page-heading": "Dokumentenvorspann konfigurieren",
 	"pdfcreator-template-edit-dlg-intro-page-desc": "Eine Seite mit einem Bild, einem Titel und optionalem Text erstellen",
-	"pdfcreator-template-edit-dlg-intro-background-image-label": "Hintergrundbibld",
+	"pdfcreator-template-edit-dlg-intro-background-image-label": "Hintergrundbild",
 	"pdfcreator-template-edit-dlg-intro-title-label": "Cover title",
 	"pdfcreator-template-edit-dlg-intro-text-label": "Cover text",
 	"pdfcreator-template-edit-dlg-outro-page-heading": "Dokumentenanhang konfigurieren",
