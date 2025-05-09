@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @copyright Copyright (C) 2025 Hallo Welt! GmbH
+ * @author Daniel Vogel
+ */
+
 use MediaWiki\Extension\PDFCreator\ITargetResult;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Maintenance\Maintenance;
