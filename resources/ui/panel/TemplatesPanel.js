@@ -27,7 +27,21 @@ ext.pdfcreator.ui.panel.TemplatesPanel.prototype.setupGrid = function ( data ) {
 		template: {
 			headerText: mw.message( 'pdfcreator-panel-templates-overview-column-templates-label' ).text(),
 			type: 'url',
-			urlProperty: 'url'
+			urlProperty: 'url',
+			valueParser: ( value, row ) => {
+				if ( row.disabled ) {
+					return new OO.ui.HtmlSnippet( mw.html.element( 'span', {}, value ) );
+				}
+				return new OO.ui.HtmlSnippet(
+					mw.html.element(
+						'a',
+						{
+							href: row.template
+						},
+						value
+					)
+				);
+			}
 		}
 	};
 	if ( this.editRight ) {
@@ -39,7 +53,9 @@ ext.pdfcreator.ui.panel.TemplatesPanel.prototype.setupGrid = function ( data ) {
 			headerText: mw.message( 'pdfcreator-panel-templates-overview-column-edit-label' ).text(),
 			invisibleHeader: true,
 			width: 40,
-			visibleOnHover: true
+			visibleOnHover: true,
+			disabled: ( row ) => row.disabled
+
 		};
 		columns.duplicate = {
 			type: 'action',
@@ -49,7 +65,8 @@ ext.pdfcreator.ui.panel.TemplatesPanel.prototype.setupGrid = function ( data ) {
 			headerText: mw.message( 'pdfcreator-panel-templates-overview-column-copy-label' ).text(),
 			invisibleHeader: true,
 			width: 40,
-			visibleOnHover: true
+			visibleOnHover: true,
+			disabled: ( row ) => row.disabled
 		};
 		columns.delete = {
 			type: 'action',
@@ -59,7 +76,8 @@ ext.pdfcreator.ui.panel.TemplatesPanel.prototype.setupGrid = function ( data ) {
 			headerText: mw.message( 'pdfcreator-panel-templates-overview-column-delete-label' ).text(),
 			invisibleHeader: true,
 			width: 40,
-			visibleOnHover: true
+			visibleOnHover: true,
+			disabled: ( row ) => row.disabled
 		};
 	}
 

@@ -67,6 +67,13 @@ class PDFCreatorUtil {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getAllProviderTemplateNames(): array {
+		return $this->templateProviderFactory->getAvailableProviderTemplateNames();
+	}
+
+	/**
 	 *
 	 * @param Title $title
 	 * @return bool
