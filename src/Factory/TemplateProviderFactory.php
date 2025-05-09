@@ -104,6 +104,24 @@ class TemplateProviderFactory implements LoggerAwareInterface {
 	/**
 	 * @return array
 	 */
+	public function getAvailableProviderTemplateNames(): array {
+		$templateNames = [];
+
+		$registry = $this->getTemplateProviderRegistry();
+		foreach ( $registry as $key => $spec ) {
+			$provider = $this->objectFactory->createObject( $spec, [] );
+			if ( $provider instanceof ITemplateProvider === false ) {
+				continue;
+			}
+			$templateNames[ $key ] = $provider->getTemplateNames();
+		}
+
+		return $templateNames;
+	}
+
+	/**
+	 * @return array
+	 */
 	public function getAvailableTemplateNames(): array {
 		$templateNames = [];
 

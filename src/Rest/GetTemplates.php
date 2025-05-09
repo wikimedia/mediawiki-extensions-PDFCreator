@@ -28,14 +28,25 @@ class GetTemplates extends SimpleHandler {
 	 */
 	public function run() {
 		$templates = [];
-		$allWikiTemplates = $this->pdfCreatorUtil->getAllWikiTemplates();
+		$allWikiTemplates = $this->pdfCreatorUtil->getAllProviderTemplateNames();
 
-		foreach ( $allWikiTemplates as $template ) {
-			$templateTitle = $this->titleFactory->newFromText( 'PDFCreator/' . $template, NS_MEDIAWIKI );
-			$templates[] = [
-				'template' => $template,
-				'url' => $templateTitle->getLocalURL()
-			];
+		foreach ( $allWikiTemplates as $provider => $providerTemplates ) {
+			if ( $provider === 'wiki' ) {
+				foreach ( $providerTemplates as $template ) {
+					$templateTitle = $this->titleFactory->newFromText( 'PDFCreator/' . $template, NS_MEDIAWIKI );
+					$templates[] = [
+						'template' => $template,
+						'url' => $templateTitle->getLocalURL()
+					];
+				}
+				continue;
+			}
+			foreach ( $providerTemplates as $template ) {
+				$templates[] = [
+					'template' => $template,
+					'disabled' => true
+				];
+			}
 		}
 		return $this->getResponseFactory()->createJson( $templates );
 	}
