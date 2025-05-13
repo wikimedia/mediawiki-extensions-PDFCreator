@@ -31,7 +31,8 @@ class PageBreak implements ParserFirstCallInitHook {
 	 */
 	public function onPDFPageBreak( ?string $input, array $args, Parser $parser,
 		PPFrame $frame ) {
-		$parser->getOutput()->addModuleStyles( [ 'ext.pdfcreator.tag.pagebreak.styles' ] );
+		$parser->getOutput()->addModuleStyles( [ 'ext.pdfcreator.tag.viewmode.styles' ] );
+
 		$out = Html::element(
 			'div',
 			[ 'class' => 'pagebreak' ],
