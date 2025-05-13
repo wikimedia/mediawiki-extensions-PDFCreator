@@ -151,5 +151,7 @@
 	"pdfcreator-template-edit-dlg-general-page-heading-edit": "Heading for the general settings page in the template edit dialog",
 	"pdfcreator-dump-namespaces-mail-body-text": "Text for a status email after maintenance script run\nParameters:\n* $1 - sitename\n* $2 - timestamp",
 	"pdfcreator-dump-namespaces-mail-body-text-done": "Status message in case of successful export",
-	"pdfcreator-dump-namespaces-mail-body-text-fail": "Status message in case of failed export"
+	"pdfcreator-dump-namespaces-mail-body-text-fail": "Status message in case of failed export",
+	"pdfcreator-tag-no-export-start-ve-label": "Label for tag to indicate pdf exclude start",
+	"pdfcreator-tag-no-export-end-ve-label": "Label for tag to indicate pdf exclude end"
 }

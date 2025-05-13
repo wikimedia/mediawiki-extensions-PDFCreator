@@ -149,5 +149,7 @@
 	"pdfcreator-template-edit-dlg-intro-custom-file-select": "Eigenes Hintergrundbild verwenden",
 	"pdfcreator-template-edit-dlg-general-redirect-label": "Weiterleitung ignorieren",
 	"pdfcreator-template-edit-dlg-title-create": "PDF-Vorlage erstellen",
-	"pdfcreator-template-edit-dlg-general-page-heading-edit": "PDF-Vorlage bearbeiten"
+	"pdfcreator-template-edit-dlg-general-page-heading-edit": "PDF-Vorlage bearbeiten",
+	"pdfcreator-tag-no-export-start-ve-label": "PDF-Ausschluss - Start",
+	"pdfcreator-tag-no-export-end-ve-label": "PDF-Ausschluss - Ende"
 }
