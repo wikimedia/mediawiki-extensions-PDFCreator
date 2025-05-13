@@ -307,6 +307,9 @@
 				"ve/dm/ext.pdfcreator.dm.PageBreakNode.js",
 				"ve/ui/ext.pdfcreator.ui.PageBreakInspectorTool.js"
 			],
+			"styles": [
+				"styles/pdfcreator.ve.styles.css"
+			],
 			"messages": [
 				"pdfcreator-exclude-export-tool-title",
 				"pdfcreator-export-pdf-inspector-title",
@@ -341,9 +344,9 @@
 				"oojs-ui-core"
 			]
 		},
-		"ext.pdfcreator.tag.pagebreak.styles": {
+		"ext.pdfcreator.tag.viewmode.styles": {
 			"styles": [
-				"styles/pdfcreator.tag.pagebreak.css"
+				"styles/pdfcreator.tag.viewmode.css"
 			]
 		},
 		"ext.pdfcreator.droplets.styles": {

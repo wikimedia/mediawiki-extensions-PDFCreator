@@ -4,6 +4,7 @@ namespace MediaWiki\Extension\PDFCreator\MediaWiki\Hook\ParserFirstCallInit;
 
 use MediaWiki\Hook\ParserFirstCallInitHook;
 use MediaWiki\Html\Html;
+use MediaWiki\Message\Message;
 use MediaWiki\Parser\Parser;
 use MediaWiki\Parser\PPFrame;
 
@@ -43,10 +44,11 @@ class NoExportStart implements ParserFirstCallInitHook {
 		} else {
 			static::$counter[spl_object_id( $parser )] = 0;
 		}
+		$parser->getOutput()->addModuleStyles( [ 'ext.pdfcreator.tag.viewmode.styles' ] );
 
 		$out = Html::element( 'div', [
 			'class' => 'pdfcreator-excludestart'
-		] );
+		], Message::newFromKey( 'pdfcreator-tag-no-export-start-ve-label' )->text() );
 		return $out;
 	}
 

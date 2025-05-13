@@ -27,15 +27,17 @@ ext.pdfcreator.ve.ui.ExcludeExportTool.prototype.onSelect = function () {
 		selection = surfaceModel.getSelection(),
 		doc = surfaceModel.getDocument();
 
-	const itemStart = [
-		{ type: 'pdfexcludestart' },
-		{ type: '/pdfexcludestart' }
-	];
-	const itemEnd = [
-		{ type: 'pdfexcludeend' },
-		{ type: '/pdfexcludeend' }
-	];
-	if ( !selection.isCollapsed() ) {
+	// Only in visual mode and if text is selected
+	if ( !selection.isCollapsed() && surface.mode === 'visual' ) {
+		const itemStart = [
+			{ type: 'pdfexcludestart' },
+			{ type: '/pdfexcludestart' }
+		];
+		const itemEnd = [
+			{ type: 'pdfexcludeend' },
+			{ type: '/pdfexcludeend' }
+		];
+
 		// Wrap selected text with tags
 		surfaceModel.change(
 			ve.dm.TransactionBuilder.static.newFromInsertion(
@@ -52,17 +54,7 @@ ext.pdfcreator.ve.ui.ExcludeExportTool.prototype.onSelect = function () {
 			)
 		);
 	} else {
-		const itemData = itemStart.concat(
-			itemEnd
-		);
-
-		surfaceModel.change(
-			ve.dm.TransactionBuilder.static.newFromInsertion(
-				doc,
-				selection.getRange().end,
-				itemData
-			)
-		);
+		ext.pdfcreator.ve.ui.ExcludeExportTool.super.prototype.onSelect.call( this );
 	}
 };
 
@@ -85,3 +77,12 @@ ve.ui.commandRegistry.register(
 		], supportedSelections: [ 'linear' ] }
 	)
 );
+
+if ( ve.ui.wikitextCommandRegistry ) {
+	ve.ui.wikitextCommandRegistry.register(
+		new ve.ui.Command(
+			'excludeExportCommand', 'mwWikitext', 'toggleWrapSelection',
+			{ args: [ '<pdfexcludestart />', '<pdfexcludeend />', '' ], supportedSelections: [ 'linear' ] }
+		)
+	);
+}
