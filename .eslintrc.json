@@ -7,8 +7,6 @@
 	],
 	"globals": {
 		"ext": "readonly",
-		"mw": "readonly",
-		"OO": "readonly",
 		"OOJSPlus": "readonly",
 		"ve": "readonly"
 	},
