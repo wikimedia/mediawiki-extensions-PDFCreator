@@ -36,7 +36,7 @@ ext.pdfcreator.ui.panel.TemplatesPanel.prototype.setupGrid = function ( data ) {
 					mw.html.element(
 						'a',
 						{
-							href: row.template
+							href: row.url
 						},
 						value
 					)
