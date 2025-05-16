@@ -150,5 +150,8 @@
 	"pdfcreator-template-edit-dlg-title-create": "Create PDF template",
 	"pdfcreator-template-edit-dlg-general-page-heading-edit": "Edit PDF template",
 	"pdfcreator-tag-no-export-start-ve-label": "PDF exclude - start",
-	"pdfcreator-tag-no-export-end-ve-label": "PDF exclude - end"
+	"pdfcreator-tag-no-export-end-ve-label": "PDF exclude - end",
+	"pdfcreator-dump-namespaces-mail-body-text": "The namespaces of $1 were exported as PDF on $2.",
+	"pdfcreator-dump-namespaces-mail-body-text-done": "done",
+	"pdfcreator-dump-namespaces-mail-body-text-fail": "fail"
 }
