@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\PDFCreator\Component;
 
-use IContextSource;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Message\Message;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Title\NamespaceInfo;
