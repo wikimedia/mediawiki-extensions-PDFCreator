@@ -49,5 +49,16 @@
 	"pdfcreator-pageparam-totalpagescount": "Affiche le nombre total de pages",
 	"pdfcreator-pageparam-logo": "Insérer le logo du wiki",
 	"pdfcreator-tag-pagebreak-label": "Saut de page",
-	"pdfcreator-droplet-pagebreak-name": "saut de page PDF"
+	"pdfcreator-droplet-pagebreak-name": "saut de page PDF",
+	"pdfcreator-droplet-pagebreak-description": "Force un saut de page à la position définie lors de l’exportation PDF",
+	"pdfcreator-droplet-no-export-name": "Exclure le contenu du PDF",
+	"pdfcreator-droplet-no-export-description": "Ajoute des balises de début et de fin au contenu afin que tout ce qui se trouve à l'intérieur de ces balises ne soit pas visible dans le fichier PDF",
+	"pdfcreator-exclude-export-tool-title": "Exclure le contenu du PDF",
+	"pdfcreator-export-pdf-inspector-title": "Exporter",
+	"pdfcreator-export-pdf-inspector-page-layout-label": "Titre de la page",
+	"pdfcreator-export-pdf-inspector-export-mode-label": "Mode d'exportation",
+	"pdfcreator-export-pdf-inspector-export-template-label": "Modèle de PDF",
+	"pdfcreator-export-pdf-inspector-export-link-label": "Texte pour le lien d'exportation",
+	"pdfcreator-export-pdf-inspector-export-tool-title": "Lien d'exportation PDF",
+	"pdfcreator-page-break-tool-title": "Saut de page"
 }
