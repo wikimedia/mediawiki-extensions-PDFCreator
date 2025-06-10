@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Daniel Vogel",
-			"Miriam Schlindwein"
+			"Miriam Schlindwein",
+			"McDutchie"
 		]
 	},
 	"pdfcreator-name": "{{name}}",
@@ -32,12 +33,12 @@
 	"pdfcreator-export-plugin-mode-option-subpages-label": "Label for radio button to export page including subpages",
 	"pdfcreator-export-plugin-mode-option-recursive-label": "Label for radio button to export page with linked pages",
 	"pdfcreator-toc-page-label": "Label for pdf page with table of contents",
+	"pdfcreator-config-default-pdf-template": "Label for input field to set config variable for default export template",
+	"pdfcreator-config-default-pdf-template-help": "Help text for input field to set default export template",
 	"pdfcreator-dialog-button-title": "Button title to open export dialog",
 	"pdfcreator-dialog-button-text": "Aria label for button to export page",
 	"pdfcreator-config-suppress-namespace": "Label for input field to set config variable to suppress page namespace in pdf",
 	"pdfcreator-config-suppress-namespace-help": "Help text for input field to suppress page namespace in pdf",
-	"pdfcreator-config-default-pdf-template": "Label for input field to set config variable for default export template",
-	"pdfcreator-config-default-pdf-template-help": "Help text for input field to set default export template",
 	"pdfcreator-config-coverbackground": "Label for input field to set config variable for cover background image for PDF templates",
 	"pdfcreator-config-coverbackground-help": "Help text for input field to set cover background image for PDF templates",
 	"pdfcreator-pageparam-username": "Description of a pdf template parameter providing username of exporting user",
@@ -72,7 +73,7 @@
 	"pdfcreator-template-edit-dlg-action-save": "Label for the save button in the PDF template edit dialog\n{{Identical|Save}}",
 	"pdfcreator-template-edit-dlg-action-upload": "Label for the upload button in the PDF template edit dialog\n{{Identical|Upload}}",
 	"pdfcreator-template-edit-dlg-action-back": "Label for the back button in the PDF template edit dialog\n{{Identical|Back}}",
-	"pdfcreator-template-edit-dlg-upload-error-unhandled": "Error message shown when an unhandled exception occurs during file upload",
+	"pdfcreator-template-edit-dlg-upload-error-unhandled": "Error message shown when an unhandled exception (i.e., an error that the system doesn't know how to handle, an unknown error) occurs during file upload",
 	"pdfcreator-template-edit-dlg-upload-error-duplicate": "Error message shown when trying to upload a duplicate file. Parameters:\n* $1 - The name of the file",
 	"pdfcreator-select-template-widget-configure-btn-label": "Label for the configure button in the template selection widget\n{{Identical|Configure}}",
 	"pdfcreator-template-edit-dlg-footer-page-heading": "Heading for the footer configuration page in the template edit dialog",
@@ -92,7 +93,6 @@
 	"pdfcreator-template-edit-dlg-general-ns-prefix-label": "Label for the namespace prefix checkbox in the general properties",
 	"pdfcreator-template-edit-dlg-general-attachments-label": "Label for the attachments checkbox in the general properties",
 	"pdfcreator-template-edit-dlg-general-links-label": "Label for the disable links checkbox in the general properties",
-	"pdfcreator-template-edit-dlg-general-redirect-label": "Label for the redirect checkbox in the general properties",
 	"pdfcreator-template-edit-dlg-template-desc-label": "Label for the template description input in the general settings",
 	"pdfcreator-template-dlg-template-name-error-label": "Error message shown when a template name is already in use",
 	"pdfcreator-template-edit-dlg-header-upload-btn-label": "Label for the button to upload an image for the header",
@@ -147,6 +147,7 @@
 	"pdfcreator-template-edit-dlg-header-custom-file-select": "Label for checkbox to use custom file in header",
 	"pdfcreator-template-edit-dlg-intro-file-select-label": "File select widget label to select background image for intro from wiki",
 	"pdfcreator-template-edit-dlg-intro-custom-file-select": "Label for checkbox to use custom background image in document preface",
+	"pdfcreator-template-edit-dlg-general-redirect-label": "Label for the redirect checkbox in the general properties",
 	"pdfcreator-template-edit-dlg-title-create": "Title of the dialog for creating PDF templates",
 	"pdfcreator-template-edit-dlg-general-page-heading-edit": "Heading for the general settings page in the template edit dialog",
 	"pdfcreator-dump-namespaces-mail-body-text": "Text for a status email after maintenance script run\nParameters:\n* $1 - sitename\n* $2 - timestamp",

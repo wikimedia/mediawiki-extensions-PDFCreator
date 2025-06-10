@@ -4,7 +4,8 @@
 			"Brettchenweber",
 			"Daniel Vogel",
 			"Miriam Schlindwein",
-			"Mschlindwein"
+			"Mschlindwein",
+			"McDutchie"
 		]
 	},
 	"pdfcreator-desc": "Erstellt PDF-Dateien von Wikiseiten",
@@ -135,7 +136,7 @@
 	"pdfcreator-panel-templates-overview-column-delete-label": "Löschen",
 	"pdfcreator-template-edit-source-dlg-title": "PDF-Vorlage bearbeiten",
 	"pdfcreator-template-edit-source-dlg-action-edit": "Quelltext bearbeiten",
-	"pdfcreator-template-edit-source-dlg-no-compatibility-label": "Die Vorlage \"$1\" kann aufgrund folgender Abweichungen nur im Quelltextmodus bearbeitet werden:",
+	"pdfcreator-template-edit-source-dlg-no-compatibility-label": "Die Vorlage $1 scheint manuell bearbeitet zu sein und kann daher nicht über das Dialogfenster bearbeitet werden.",
 	"pdfcreator-edit-template-values-invalid-template": "Kein gültiger PDF-Vorlagentitel",
 	"pdfcreator-edit-template-values-header-error": "Die Kopfzeile stimmt nicht mit der Tabellen- und Klassenstruktur überein",
 	"pdfcreator-edit-template-values-footer-error": "Die Fußzeile stimmt nicht mit der Tabellen- und Klassenstruktur überein",
