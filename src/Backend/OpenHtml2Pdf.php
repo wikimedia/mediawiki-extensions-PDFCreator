@@ -7,9 +7,10 @@ use MediaWiki\Config\Config;
 use MediaWiki\Extension\PDFCreator\IExportBackend;
 use MediaWiki\Extension\PDFCreator\Utility\ExportResources;
 use MediaWiki\Logger\LoggerFactory;
+use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 
-class OpenHtml2Pdf implements IExportBackend {
+class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 
 	/** @var Config */
 	private $config;
@@ -106,7 +107,7 @@ class OpenHtml2Pdf implements IExportBackend {
 	 * @param LoggerInterface $logger
 	 * @return void
 	 */
-	public function setLogger( LoggerInterface $logger ) {
+	public function setLogger( LoggerInterface $logger ): void {
 		$this->logger = $logger;
 	}
 
