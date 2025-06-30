@@ -2,8 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Daniel Vogel",
-			"Miriam Schlindwein",
-			"McDutchie"
+			"McDutchie",
+			"Miriam Schlindwein"
 		]
 	},
 	"pdfcreator-name": "{{name}}",
