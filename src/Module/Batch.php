@@ -614,10 +614,7 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	 * @return string
 	 */
 	protected function getBookmarksXML( array $pages, ExportContext $context ): string {
-		if ( count( $pages ) > 1 ) {
-			$xmlBuilder = new BookmarksXMLBuilder();
-			return $xmlBuilder->execute( $pages );
-		}
-		return '';
+		$xmlBuilder = new BookmarksXMLBuilder();
+		return $xmlBuilder->execute( $pages );
 	}
 }
