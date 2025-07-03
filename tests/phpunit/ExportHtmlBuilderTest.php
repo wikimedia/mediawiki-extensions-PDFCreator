@@ -3,10 +3,10 @@
 namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
 
 use DOMDocument;
-use MediaWiki\Config\Config;
 use MediaWiki\Extension\PDFCreator\Utility\ExportHtmlBuilder;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\HtmlMetaItem;
+use MediaWiki\Language\Language;
 use MediaWikiLangTestCase;
 
 /**
@@ -14,19 +14,12 @@ use MediaWikiLangTestCase;
  */
 class ExportHtmlBuilderTest extends MediaWikiLangTestCase {
 
-	/** @var Config */
-	private $config;
-
 	/**
 	 * @covers \MediaWiki\Extension\PDFCreator\Utility\ExportHtmlBuilder::execute
 	 */
 	public function testExecute() {
-		$services = $this->getServiceContainer();
-
-		$this->config = $services->getMainConfig();
-
-		/** @var ExportHtmlBuilder */
-		$ExportHtmlBuilder = $services->get( 'PDFCreator.ExportHtmlBuilder' );
+		$languageMock = $this->mockLanguage();
+		$ExportHtmlBuilder = new ExportHtmlBuilder( $languageMock );
 
 		$actual = $ExportHtmlBuilder->execute(
 			$this->getPages(),
@@ -79,5 +72,17 @@ class ExportHtmlBuilderTest extends MediaWikiLangTestCase {
 			new ExportPage( 'raw', $dom1, 'Content 1' ),
 			new ExportPage( 'raw', $dom2, 'Content 2' ),
 		];
+	}
+
+	/**
+	 *
+	 * @return MockObject|Language&MockObject
+	 */
+	private function mockLanguage() {
+		$languageMock = $this->getMockBuilder( Language::class )
+			->disableOriginalConstructor()
+			->getMock();
+		$languageMock->method( 'getHtmlCode' )->willReturn( 'en' );
+		return $languageMock;
 	}
 }
