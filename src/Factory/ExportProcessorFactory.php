@@ -20,7 +20,7 @@ class ExportProcessorFactory {
 
 	/**
 	 * @param string $module
-	 * @return array
+	 * @return IProcessor[]
 	 */
 	public function getProcessors( string $module ): array {
 		$registry = ExtensionRegistry::getInstance()->getAttribute(
