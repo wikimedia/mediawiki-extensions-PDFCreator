@@ -38,7 +38,7 @@ class ExportProcessorFactory {
 			$positionA = $a->getPosition();
 			$positionB = $b->getPosition();
 
-			return $positionA > $positionB ? 1 : 0;
+			return $positionA <=> $positionB;
 		} );
 		return $processors;
 	}
