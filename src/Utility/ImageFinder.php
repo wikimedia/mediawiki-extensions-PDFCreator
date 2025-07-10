@@ -79,28 +79,21 @@ class ImageFinder {
 	protected function find( DOMDocument $dom ): void {
 		$xpath = new DOMXPath( $dom );
 		$images = $xpath->query( '//img[@src]' );
-		$objects = $xpath->query( '//object[@type="image/svg+xml"][@data]' );
 
 		$fileResolver = $this->getFileResolver();
 
 		/** @var DOMElement $image */
 		foreach ( $images as $image ) {
-			$this->handleImageElement( $fileResolver, $image, 'src' );
-		}
-
-		/** @var DOMElement $object */
-		foreach ( $objects as $object ) {
-			$this->handleImageElement( $fileResolver, $object, 'data' );
+			$this->handleImageElement( $fileResolver, $image );
 		}
 	}
 
 	/**
 	 * @param FileResolver|NSFileRepoFileResolver $fileResolver
 	 * @param DOMElement $element
-	 * @param string $attrName
 	 */
-	protected function handleImageElement( mixed $fileResolver, DOMElement $element, string $attrName ): void {
-		$file = $fileResolver->execute( $element, $attrName );
+	protected function handleImageElement( mixed $fileResolver, DOMElement $element ): void {
+		$file = $fileResolver->execute( $element, 'src' );
 		if ( !$file ) {
 			return;
 		}
@@ -108,7 +101,7 @@ class ImageFinder {
 		$absPath = $file->getLocalRefPath();
 		$filename = $file->getName();
 		$filename = $this->uncollideFilenames( $filename, $absPath );
-		$url = $element->getAttribute( $attrName );
+		$url = $element->getAttribute( 'src' );
 
 		if ( !isset( $this->data[$filename] ) ) {
 			$this->data[$filename] = [

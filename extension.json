@@ -93,6 +93,9 @@
 			"PreProcessors": {
 				"excludeExport": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\PreProcessor\\ExcludeExportProcessor"
+				},
+				"objects": {
+					"class": "MediaWiki\\Extension\\PDFCreator\\PreProcessor\\ObjectProcessor"
 				}
 			},
 			"Processors": {
