@@ -124,6 +124,9 @@
 				},
 				"suppresslinks": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\SuppressLinks"
+				},
+				"input-select": {
+					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\InputSelectProcessor"
 				}
 			},
 			"PostProcessors": {},
