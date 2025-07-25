@@ -8,7 +8,6 @@ use DOMElement;
 use File;
 use MediaWiki\Extension\PDFCreator\Utility\FileResolver;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use MediaWikiLangTestCase;
 use RepoGroup;
 
@@ -25,7 +24,7 @@ class FileResolverTest extends MediaWikiLangTestCase {
 			MainConfigNames::ScriptPath => '/pdfcreator',
 		] );
 
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$config = $services->getMainConfig();
 		$repoGroup = $this->mockRepoGroup();
 		$titleFactory = $services->getTitleFactory();

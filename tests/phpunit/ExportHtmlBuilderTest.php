@@ -7,7 +7,6 @@ use MediaWiki\Config\Config;
 use MediaWiki\Extension\PDFCreator\Utility\ExportHtmlBuilder;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\HtmlMetaItem;
-use MediaWiki\MediaWikiServices;
 use MediaWikiLangTestCase;
 
 /**
@@ -22,7 +21,7 @@ class ExportHtmlBuilderTest extends MediaWikiLangTestCase {
 	 * @covers \MediaWiki\Extension\PDFCreator\Utility\ExportHtmlBuilder::execute
 	 */
 	public function testExecute() {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 
 		$this->config = $services->getMainConfig();
 
