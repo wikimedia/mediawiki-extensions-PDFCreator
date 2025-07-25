@@ -8,7 +8,6 @@ use MediaWiki\Extension\PDFCreator\Utility\AttachmentFinder;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\WikiFileResource;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Title\Title;
 use MediaWikiIntegrationTestCase;
 use RepoGroup;
@@ -24,7 +23,7 @@ class AttachmentFinderTest extends MediaWikiIntegrationTestCase {
 			MainConfigNames::ScriptPath => '/pdfcreator',
 		] );
 
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$titleFactory = $services->getTitleFactory();
 		$config = $services->getMainConfig();
 		$repoGroup = $this->mockRepoGroup();
