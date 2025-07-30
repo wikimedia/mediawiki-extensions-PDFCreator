@@ -53,7 +53,7 @@ class AttachmentUrlUpdaterTest extends MediaWikiLangTestCase {
 	}
 
 	/**
-	 * @return FileResoruce[]
+	 * @return WikiFileResource[]
 	 */
 	private function getImages(): array {
 		return [
