@@ -4,18 +4,14 @@ namespace MediaWiki\Extension\PDFCreator\Utility;
 
 use DOMElement;
 use DOMXPath;
-use MediaWiki\Title\TitleFactory;
+use MediaWiki\Utils\UrlUtils;
 
 class WikiLinker {
 
-	/** @var TitleFactory */
-	private $titleFactory;
-
 	/**
-	 * @param TitleFactory $titleFactory
+	 * @param UrlUtils $urlUtils
 	 */
-	public function __construct( TitleFactory $titleFactory ) {
-		$this->titleFactory = $titleFactory;
+	public function __construct( private readonly UrlUtils $urlUtils ) {
 	}
 
 	/**
@@ -45,13 +41,12 @@ class WikiLinker {
 					continue;
 				}
 
-				if ( $element->hasAttribute( 'title' ) === false ) {
+				$href = $this->urlUtils->expand( $href );
+				if ( !$href ) {
 					continue;
 				}
 
-				$title = $element->getAttribute( 'title' );
-				$title = $this->titleFactory->newFromText( $title );
-				$element->setAttribute( 'href', $title->getFullURL() );
+				$element->setAttribute( 'href', $href );
 			}
 		}
 
