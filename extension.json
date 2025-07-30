@@ -113,11 +113,11 @@
 				},
 				"pagelinker": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\PageLinkerProcessor",
-					"services": [ "TitleFactory" ]
+					"services": [ "TitleFactory", "UrlUtils" ]
 				},
 				"wikilinker": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\WikiLinkerProcessor",
-					"services": [ "TitleFactory" ]
+					"services": [ "UrlUtils" ]
 				},
 				"suppresslinks": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\SuppressLinks"

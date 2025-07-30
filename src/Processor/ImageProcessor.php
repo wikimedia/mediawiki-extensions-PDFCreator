@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\PDFCreator\Processor;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\PDFCreator\IProcessor;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
+use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\ImageFinder;
 use MediaWiki\Extension\PDFCreator\Utility\ImageUrlUpdater;
 use MediaWiki\Extension\PDFCreator\Utility\ImageWidthUpdater;
