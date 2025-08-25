@@ -39,8 +39,6 @@
 	"pdfcreator-config-default-pdf-template-help": "Legt die Standardvorlage für Seitenexporte fest. Die Vorlage muss als Unterseite von MediaWiki:PDFCreator existieren",
 	"pdfcreator-dialog-button-title": "Exportdialog öffnen",
 	"pdfcreator-dialog-button-text": "Exportieren",
-	"pdfcreator-config-suppress-namespace": "Namensraum-Präfix im PDF ausblenden",
-	"pdfcreator-config-suppress-namespace-help": "Entfernt das Namespace-Präfix aus Titeln und aus dem Template-Parameter \"title\" in der PDF-Ausgabe",
 	"pdfcreator-config-coverbackground": "Standard-Cover-Hintergrundbild in PDF-Vorlagen",
 	"pdfcreator-config-coverbackground-help": "Definiert ein Cover-Hintergrundbild für alle PDF-Vorlagen, die den Standard-Intro-Wrapper eingestellt haben. Das Bild muss eine hochgeladene Datei im Wiki oder ein gültiger Dateipfad sein",
 	"pdfcreator-pageparam-username": "Zeigt den Benutzernamen des exportierenden Benutzers an",
