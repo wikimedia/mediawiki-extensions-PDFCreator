@@ -37,8 +37,6 @@
 	"pdfcreator-config-default-pdf-template-help": "Help text for input field to set default export template",
 	"pdfcreator-dialog-button-title": "Button title to open export dialog",
 	"pdfcreator-dialog-button-text": "Aria label for button to export page",
-	"pdfcreator-config-suppress-namespace": "Label for input field to set config variable to suppress page namespace in pdf",
-	"pdfcreator-config-suppress-namespace-help": "Help text for input field to suppress page namespace in pdf",
 	"pdfcreator-config-coverbackground": "Label for input field to set config variable for cover background image for PDF templates",
 	"pdfcreator-config-coverbackground-help": "Help text for input field to set cover background image for PDF templates",
 	"pdfcreator-pageparam-username": "Description of a pdf template parameter providing username of exporting user",
