@@ -176,7 +176,6 @@
 		},
 		"BlueSpiceFoundation": {
 			"ConfigDefinitionRegistry": {
-				"PDFCreatorSuppressNamespace": "\\MediaWiki\\Extension\\PDFCreator\\ConfigDefinition\\SuppressNamespace::getInstance",
 				"PDFCreatorDefaultTemplate": "\\MediaWiki\\Extension\\PDFCreator\\ConfigDefinition\\DefaultPDFTemplate::getInstance",
 				"PDFCreatorCoverbackground": "\\MediaWiki\\Extension\\PDFCreator\\ConfigDefinition\\Coverbackground::getInstance"
 			}
@@ -606,9 +605,6 @@
 		},
 		"PDFCreatorCoverbackground": {
 			"value": ""
-		},
-		"PDFCreatorSuppressNamespace": {
-			"value": false
 		}
 	},
 	"manifest_version": 2,
