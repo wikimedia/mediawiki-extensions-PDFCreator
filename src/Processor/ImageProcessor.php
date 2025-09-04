@@ -8,6 +8,7 @@ use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Extension\PDFCreator\Utility\ImageFinder;
 use MediaWiki\Extension\PDFCreator\Utility\ImageUrlUpdater;
 use MediaWiki\Extension\PDFCreator\Utility\ImageWidthUpdater;
+use MediaWiki\Extension\PDFCreator\Utility\ThumbWidthUpdater;
 use MediaWiki\Title\TitleFactory;
 use RepoGroup;
 
@@ -58,6 +59,9 @@ class ImageProcessor implements IProcessor {
 
 		$imageWidthUpdater = new ImageWidthUpdater();
 		$imageWidthUpdater->execute( $pages );
+
+		$thumbWidthUpdater = new ThumbWidthUpdater();
+		$thumbWidthUpdater->execute( $pages );
 
 		/** @var WikiFileResource */
 		foreach ( $results as $result ) {
