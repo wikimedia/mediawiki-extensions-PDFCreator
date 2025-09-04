@@ -324,6 +324,11 @@ figure[ typeof~='mw:File/Frameless' ] > figcaption {
 	display: none;
 }
 
+figcaption {
+	padding: 5px;
+	font-size: 50%;
+}
+
 /* thumbnails */
 div.tright {
 	margin-right: 10px !important;
