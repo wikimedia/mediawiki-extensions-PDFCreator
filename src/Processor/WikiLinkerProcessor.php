@@ -7,6 +7,9 @@ use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Extension\PDFCreator\Utility\WikiLinker;
 use MediaWiki\Title\TitleFactory;
 
+/**
+ * This class has to run after PageLinkerProcessor
+ */
 class WikiLinkerProcessor implements IProcessor {
 
 	/** @var TitleFactory */
