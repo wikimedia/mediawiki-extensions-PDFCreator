@@ -30,14 +30,25 @@ class WikiLinker {
 			$dom = $page->getDOMDocument();
 			$xpath = new DOMXPath( $dom );
 
-			$elements = $xpath->query( '//*[contains(@class, "internal") and not(contains(@class, "media"))]' );
+			$elements = $xpath->query( '//a[not(contains(@class, "media"))]' );
 			foreach ( $elements as $element ) {
 				if ( $element instanceof DOMElement === false ) {
 					continue;
 				}
+
+				if ( $element->hasAttribute( 'href' ) === false ) {
+					continue;
+				}
+
+				$href = $element->getAttribute( 'href' );
+				if ( substr( $href, 0, 1 ) === '#' ) {
+					continue;
+				}
+
 				if ( $element->hasAttribute( 'title' ) === false ) {
 					continue;
 				}
+
 				$title = $element->getAttribute( 'title' );
 				$title = $this->titleFactory->newFromText( $title );
 				$element->setAttribute( 'href', $title->getFullURL() );

@@ -25,12 +25,13 @@ class UniqueHtmlIdMakerTest extends \MediaWikiIntegrationTestCase {
 		$dom = new DOMDocument();
 		$dom->loadXML( $input );
 
-		$actual = $uniqueHtmlIdMaker->execute(
+		$uniqueHtmlIdMaker->execute(
 			$dom,
 			$prefix,
 			[
-				'/wiki/Test',
-				'http://example.test/wiki/Test',
+				'12345' => [
+					'/wiki/Test',
+				]
 			]
 		);
 
