@@ -6,6 +6,9 @@ use DOMElement;
 use DOMXPath;
 use MediaWiki\Title\TitleFactory;
 
+/**
+ * Unused. Will be deleted as soon as possible.
+ */
 class LinkUpdater {
 
 	/** @var TitleFactory */
