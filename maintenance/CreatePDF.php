@@ -22,16 +22,14 @@ require_once "$IP/maintenance/Maintenance.php";
  */
 class CreatePDF extends Maintenance {
 
-	/**
-	 */
 	public function __construct() {
 		parent::__construct();
 		$this->addDescription( 'Exports a batch of pages.' );
 		$this->addOption(
-			'src',
-			'Json specification file.',
-			false,
-			true
+		'src',
+		'Json specification file.',
+		false,
+		true
 		);
 	}
 

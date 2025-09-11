@@ -162,7 +162,6 @@ class PDFCreatorTemplateHandler extends TextContentHandler {
 	}
 
 	/**
-	 *
 	 * @param TextContent $content
 	 * @param ContentParseParams $cpoParams
 	 * @return string

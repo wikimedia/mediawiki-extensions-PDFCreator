@@ -75,7 +75,6 @@ class ExportHtmlBuilderTest extends MediaWikiLangTestCase {
 	}
 
 	/**
-	 *
 	 * @return MockObject|Language&MockObject
 	 */
 	private function mockLanguage() {

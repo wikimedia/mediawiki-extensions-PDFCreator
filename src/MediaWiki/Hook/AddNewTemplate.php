@@ -18,7 +18,6 @@ class AddNewTemplate implements SkinTemplateNavigation__UniversalHook, BlueSpice
 	private $titleFactory;
 
 	/**
-	 *
 	 * @param PermissionManager $permissionManager
 	 * @param TitleFactory $titleFactory
 	 */
@@ -66,7 +65,6 @@ class AddNewTemplate implements SkinTemplateNavigation__UniversalHook, BlueSpice
 	}
 
 	/**
-	 *
 	 * @param ITemplateDataProvider $registry
 	 * @return void
 	 */

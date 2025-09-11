@@ -8,7 +8,6 @@ use BlueSpice\ConfigDefinition\IOverwriteGlobal;
 class SuppressNamespace extends BooleanSetting implements IOverwriteGlobal {
 
 	/**
-	 *
 	 * @return array
 	 */
 	public function getPaths() {
@@ -30,7 +29,6 @@ class SuppressNamespace extends BooleanSetting implements IOverwriteGlobal {
 	}
 
 	/**
-	 *
 	 * @return string
 	 */
 	public function getLabelMessageKey() {
@@ -38,7 +36,6 @@ class SuppressNamespace extends BooleanSetting implements IOverwriteGlobal {
 	}
 
 	/**
-	 *
 	 * @return string
 	 */
 	public function getHelpMessageKey() {

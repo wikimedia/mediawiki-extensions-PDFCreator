@@ -42,7 +42,6 @@ class ExportPageFactory implements LoggerAwareInterface {
 	}
 
 	/**
-	 *
 	 * @param PageSpec $pageSpec
 	 * @param Template $template
 	 * @param ExportContext $context

@@ -59,9 +59,6 @@ class DumpNamespaces extends Maintenance {
 	/** @var array */
 	private $mailData = [];
 
-	/**
-	 *
-	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -69,9 +66,9 @@ class DumpNamespaces extends Maintenance {
 		$this->addOption( 'dest', 'Absolute path of the output pdf file.', true, true, 'p' );
 		$this->addOption( 'template', 'PDF template name', false, true, 't' );
 		$this->addOption(
-			'limit',
-			'Limit the number of wiki pages for each pdf.',
-			false, true, 'l'
+		'limit',
+		'Limit the number of wiki pages for each pdf.',
+		false, true, 'l'
 		);
 		$this->addOption( 'verbose', 'Verbose output', false, false, 'v' );
 		$this->addOption( 'mail-recipient', 'E-mail recipient for notification email', false, true, 'm' );

@@ -43,7 +43,6 @@ class NoExport extends TagDroplet {
 	}
 
 	/**
-	 *
 	 * @inheritDoc
 	 */
 	protected function getTagName(): string {

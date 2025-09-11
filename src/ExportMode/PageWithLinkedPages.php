@@ -16,7 +16,6 @@ class PageWithLinkedPages extends Page {
 	protected $namespaceInfo;
 
 	/**
-	 *
 	 * @param Config $config
 	 * @param TitleFactory $titleFactory
 	 * @param LoadBalancer $loadBalancer
@@ -32,7 +31,6 @@ class PageWithLinkedPages extends Page {
 	}
 
 	/**
-	 *
 	 * @inheritDoc
 	 */
 	public function getKey(): string {
@@ -40,7 +38,6 @@ class PageWithLinkedPages extends Page {
 	}
 
 	/**
-	 *
 	 * @inheritDoc
 	 */
 	public function getLabel(): string {
@@ -48,7 +45,6 @@ class PageWithLinkedPages extends Page {
 	}
 
 	/**
-	 *
 	 * @inheritDoc
 	 */
 	public function applies( $format ): bool {
@@ -56,7 +52,6 @@ class PageWithLinkedPages extends Page {
 	}
 
 	/**
-	 *
 	 * @inheritDoc
 	 */
 	public function getExportPages( $title, $data ): array {
