@@ -5,6 +5,7 @@ namespace MediaWiki\Extension\PDFCreator\Backend;
 use GuzzleHttp\Client;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\PDFCreator\IExportBackend;
+use MediaWiki\Extension\PDFCreator\Utility\BoolValueGet;
 use MediaWiki\Extension\PDFCreator\Utility\ExportResources;
 use MediaWiki\Logger\LoggerFactory;
 use Psr\Log\LoggerAwareInterface;
@@ -74,7 +75,7 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 		file_put_contents( $tmpHtmlFilename, $resources->getHtml() );
 
 		$this->doUpload( $token, [ $tmpHtmlFilename ] );
-		if ( !isset( $params['debug'] ) ) {
+		if ( !isset( $params['debug'] ) || BoolValueGet::from( $params['debug'] ) !== true ) {
 			unlink( $tmpHtmlFilename );
 		}
 

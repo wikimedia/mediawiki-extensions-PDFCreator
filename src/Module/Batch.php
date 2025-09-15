@@ -279,7 +279,11 @@ class Batch implements IExportModule, LoggerAwareInterface {
 		}
 
 		$targetResult = $target->execute( $pdfData, $specification->getParams() );
-		$status = rmdir( $this->workspace );
+		if ( !isset( $optionParams['debug'] )
+			|| BoolValueGet::from( $optionParams['debug'] ) !== true
+		) {
+			$status = rmdir( $this->workspace );
+		}
 
 		$exportStatus = new ExportStatus( true );
 		return $this->getExportResult( $exportStatus, $targetResult );
