@@ -164,7 +164,7 @@
 				},
 				"pageWithLinkedPages": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\ExportMode\\PageWithLinkedPages",
-					"services": [ "MainConfig", "TitleFactory", "DBLoadBalancer", "NamespaceInfo" ]
+					"services": [ "MainConfig", "TitleFactory", "RevisionLookup", "RevisionRenderer", "PermissionManager" ]
 				}
 			},
 			"ExportPluginModules": []

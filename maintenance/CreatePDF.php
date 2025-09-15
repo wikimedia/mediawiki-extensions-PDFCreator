@@ -5,6 +5,7 @@
  * @author Daniel Vogel
  */
 
+use MediaWiki\Extension\PDFCreator\IExportMode;
 use MediaWiki\Extension\PDFCreator\ITargetResult;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Maintenance\Maintenance;
@@ -22,6 +23,11 @@ require_once "$IP/maintenance/Maintenance.php";
  */
 class CreatePDF extends Maintenance {
 
+	/** @var array */
+	private $validModes = [ 'page', 'pageWithLinkedPages', 'pageWithSubpages' ];
+
+	/**
+	 */
 	public function __construct() {
 		parent::__construct();
 		$this->addDescription( 'Exports a batch of pages.' );
@@ -78,6 +84,26 @@ class CreatePDF extends Maintenance {
 		if ( isset( $params['relevantTitle'] ) ) {
 			$titleFactory = $services->getTitleFactory();
 			$relevantTitle = $titleFactory->newFromText( $params['relevantTitle'] );
+		}
+
+		// Use export Modes
+		if ( isset( $params['mode'] ) && in_array( $params['mode'], $this->validModes ) && $relevantTitle !== null ) {
+			$modeFactory = $services->get( 'PDFCreator.ExportModeFactory' );
+			$modeProvider = $modeFactory->getModeProvider( $params['mode'] );
+			if ( $modeProvider instanceof IExportMode ) {
+				$pages = $modeProvider->getExportPages( $relevantTitle, $params );
+
+				// Override ExportSpecificaton
+				$specification = $exportSpecificationFactory->new(
+					'batch',
+					$specification->getTemplateProvider(),
+					$specification->getTarget(),
+					$specification->getBackend(),
+					$pages,
+					$specification->getOptions(),
+					$specification->getParams()
+				);
+			}
 		}
 
 		$context = new ExportContext( $user, $relevantTitle	);

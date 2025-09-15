@@ -68,8 +68,8 @@ class ExportSpecificationFactory {
 			$params = [];
 		}
 
-		if ( !isset( $params['params'] ) ) {
-			$params['params'] = 'StandardPDF';
+		if ( !isset( $params['template'] ) ) {
+			$params['template'] = 'StandardPDF';
 		}
 
 		if ( isset( $spec['options'] ) ) {
