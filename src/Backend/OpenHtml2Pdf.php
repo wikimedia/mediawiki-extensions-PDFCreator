@@ -124,6 +124,12 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 		}
 		$postData = $this->getInitiaUploadPostData( $token, $type );
 
+		// 50MB
+		$thresholdSize = 50 * 1024 * 1024;
+		// 100 files
+		$thresholdCount = 100;
+		$totalSize = 0;
+		$totalCount = 0;
 		foreach ( $files as $name => $path ) {
 			if ( !file_exists( $path ) ) {
 				$this->logger->warning( "Missing $type/$path" );
@@ -138,6 +144,14 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 				$filename = basename( $path );
 			}
 			$this->logger->info( "Uploading $type/$filename" );
+			$newSize = $totalSize + filesize( $path );
+			$newCount = $totalCount + 1;
+			if ( $newSize > $thresholdSize || $newCount > $thresholdCount ) {
+				$this->doPostUpload( $type, $postData );
+				$postData = $this->getInitiaUploadPostData( $token, $type );
+				$totalSize = 0;
+				$totalCount = 0;
+			}
 
 			$postData[] = [
 				'name' => $filename,
@@ -148,16 +162,26 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 				'name' => "{$filename}_name",
 				'contents' => $filename
 			];
+			$totalSize = $newSize;
+			$totalCount = $newCount;
 		}
-		$uploadUrl = $this->uploadUrl;
+		if ( $totalCount > 0 ) {
+			$this->doPostUpload( $type, $postData );
+		}
+	}
 
-		$response = $this->guzzle->request( 'POST', $uploadUrl, [
+	/**
+	 * @param string $type
+	 * @param array $postData
+	 * @return void
+	 */
+	private function doPostUpload( string $type, array $postData ): void {
+		$response = $this->guzzle->request( 'POST', $this->uploadUrl, [
 			'multipart' => $postData
 		] );
 		$body = $response->getBody();
 		$json = json_decode( $body, true );
 		if ( $json['success'] !== true ) {
-			// TODO: Handle error
 			$this->logger->error( "Failed to upload $type" );
 		} else {
 			$this->logger->info( "Uploaded successfully $type" );
