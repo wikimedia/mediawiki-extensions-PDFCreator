@@ -125,7 +125,7 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 
 		foreach ( $files as $name => $path ) {
 			if ( !file_exists( $path ) ) {
-				echo "Missing $type/$path\n";
+				$this->logger->warning( "Missing $type/$path" );
 				continue;
 			}
 
@@ -136,7 +136,7 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 				// File arrays should have a name => path strucure
 				$filename = basename( $path );
 			}
-			echo "Uploading $type/$filename\n";
+			$this->logger->info( "Uploading $type/$filename" );
 
 			$postData[] = [
 				'name' => $filename,
@@ -157,12 +157,12 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 		$json = json_decode( $body, true );
 		if ( $json['success'] !== true ) {
 			// TODO: Handle error
-			echo "Failed to upload $type\n";
+			$this->logger->error( "Failed to upload $type" );
 		} else {
-			"Uplad sucessfully $type\n";
+			$this->logger->info( "Uploaded successfully $type" );
 		}
 
-		echo json_encode( $json, JSON_PRETTY_PRINT ) . "\n";
+		$this->logger->debug( json_encode( $json, JSON_PRETTY_PRINT ) );
 	}
 
 	/**
