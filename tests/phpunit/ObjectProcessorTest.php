@@ -3,12 +3,12 @@
 namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
 
 use DOMDocument;
-use MediaWiki\Extension\PDFCreator\PreProcessor\ObjectProcessor;
+use MediaWiki\Extension\PDFCreator\Processor\ObjectProcessor;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWikiLangTestCase;
 
 /**
- * @covers \MediaWiki\Extension\PDFCreator\PreProcessor\ObjectProcessor
+ * @covers \MediaWiki\Extension\PDFCreator\Processor\ObjectProcessor
  */
 class ObjectProcessorTest extends MediaWikiLangTestCase {
 
