@@ -149,12 +149,12 @@ class Export extends SimpleHandler {
 			$response->setHeader( 'X-Error-Details', 'Empty pdf content' );
 			return $response;
 		}
-
+		$encodedFilename = rawurlencode( $filename );
 		$response = $this->getResponseFactory()->create();
 		$response->setHeader( 'Content-Type', 'application/pdf' );
-		$response->setHeader( 'Content-Disposition', 'attachment; filename="' . $filename . '"' );
+		$response->setHeader( 'Content-Disposition', 'attachment; filename="' . $encodedFilename . '"' );
 		$response->setHeader( 'Content-Length', strlen( $pdfData ) );
-		$response->setHeader( 'X-Filename', $filename );
+		$response->setHeader( 'X-Filename', $encodedFilename );
 		$response->getBody()->write( $pdfData );
 
 		$response->getBody()->rewind();
