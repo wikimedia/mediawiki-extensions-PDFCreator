@@ -23,9 +23,6 @@ require_once "$IP/maintenance/Maintenance.php";
  */
 class CreatePDF extends Maintenance {
 
-	/** @var array */
-	private $validModes = [ 'page', 'pageWithLinkedPages', 'pageWithSubpages' ];
-
 	/**
 	 */
 	public function __construct() {
@@ -80,14 +77,24 @@ class CreatePDF extends Maintenance {
 			return;
 		}
 
+		$pages = $specification->getPages();
+
 		$relevantTitle = null;
+		$titleFactory = $services->getTitleFactory();
 		if ( isset( $params['relevantTitle'] ) ) {
-			$titleFactory = $services->getTitleFactory();
 			$relevantTitle = $titleFactory->newFromText( $params['relevantTitle'] );
+		} elseif ( !empty( $pages ) ) {
+			foreach ( $pages as $page ) {
+				if ( !isset( $page['target'] ) ) {
+					continue;
+				}
+				$relevantTitle = $titleFactory->newFromText( $page['target'] );
+				break;
+			}
 		}
 
 		// Use export Modes
-		if ( isset( $params['mode'] ) && in_array( $params['mode'], $this->validModes ) && $relevantTitle !== null ) {
+		if ( isset( $params['mode'] ) && $relevantTitle !== null ) {
 			$modeFactory = $services->get( 'PDFCreator.ExportModeFactory' );
 			$modeProvider = $modeFactory->getModeProvider( $params['mode'] );
 			if ( $modeProvider instanceof IExportMode ) {
@@ -103,6 +110,8 @@ class CreatePDF extends Maintenance {
 					$specification->getOptions(),
 					$specification->getParams()
 				);
+			} else {
+				echo "Invalid mode provider";
 			}
 		}
 
