@@ -41,6 +41,8 @@ class UrlHelper {
 
 		// Matches with nsfr_img_auth.php
 		if (
+			str_starts_with( $parts['path'], $scriptPath . 'img_auth.php' ) ||
+			str_starts_with( $parts['path'], $articlePath . 'img_auth.php' ) ||
 			str_starts_with( $parts['path'], $scriptPath . 'nsfr_img_auth.php' ) ||
 			str_starts_with( $parts['path'], $articlePath . 'nsfr_img_auth.php' )
 		) {
