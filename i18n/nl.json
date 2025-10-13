@@ -35,8 +35,6 @@
 	"pdfcreator-config-default-pdf-template-help": "Stelt het standaardsjabloon in voor het exporteren van pagina’s. Dat sjabloon moet een subpagina van MediaWiki:PDFCreator zijn.",
 	"pdfcreator-dialog-button-title": "Exportdialoog openen",
 	"pdfcreator-dialog-button-text": "Exporteren",
-	"pdfcreator-config-suppress-namespace": "Naamruimtevoorvoegsel in de PDF verbergen",
-	"pdfcreator-config-suppress-namespace-help": "Verwijdert het naamruimtevoorvoegsel uit titels en uit de sjabloonparameter “title” in de PDF-uitvoer",
 	"pdfcreator-config-coverbackground": "Standaard-omslagachtergrondafbeelding in PDF-sjablonen",
 	"pdfcreator-config-coverbackground-help": "Definieert een omslagachtergrondafbeelding voor alle PDF-sjablonen waarbij het vooraf ingestelde inleidingsomslag niet gewijzigd is. De afbeelding moet een geüpload bestand in de wiki of een geldig bestandspad zijn.",
 	"pdfcreator-pageparam-username": "Geeft de gebruikersnaam van de exporterende gebruiker weer",

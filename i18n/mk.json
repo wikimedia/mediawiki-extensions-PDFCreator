@@ -35,8 +35,6 @@
 	"pdfcreator-config-default-pdf-template-help": "Ја задава стандардната предлошка за извоз на страници. Предлошката мора да постои како потстраница на MediaWiki:PDFCreator",
 	"pdfcreator-dialog-button-title": "Отвори дијалог за извоз",
 	"pdfcreator-dialog-button-text": "Извези",
-	"pdfcreator-config-suppress-namespace": "Скривај ја претставката за именски простор во PDF",
-	"pdfcreator-config-suppress-namespace-help": "Ја скрива претставката за именски простор од насловите и од предложниот параметар „title“ во PDF-изводот",
 	"pdfcreator-config-coverbackground": "Стандардна слика за позадина на насловната страница во прелошки за PDF",
 	"pdfcreator-config-coverbackground-help": "Задава слика за позадина за сите PDF-предлошки кои имаат подразбран воведен омот. Сликата мора да биде подигната на викито или важечка податотечна патека",
 	"pdfcreator-pageparam-username": "Го прикажува корисничкото име на корисникот што извезува",
