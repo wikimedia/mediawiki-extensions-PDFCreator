@@ -64,7 +64,7 @@ class ObjectProcessor implements IProcessor {
 	 * @inheritDoc
 	 */
 	public function getPosition(): int {
-		return 10;
+		return 20;
 	}
 
 }
