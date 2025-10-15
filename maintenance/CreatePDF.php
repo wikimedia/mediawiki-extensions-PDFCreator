@@ -75,7 +75,7 @@ class CreatePDF extends Maintenance {
 			return;
 		}
 
-		$pages = $specification->getPages();
+		$pages = $specification->getPageSpecs();
 
 		$relevantTitle = null;
 		$titleFactory = $services->getTitleFactory();
