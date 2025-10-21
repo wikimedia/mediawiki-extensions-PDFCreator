@@ -12,6 +12,7 @@ use MediaWiki\Extension\PDFCreator\Utility\PageSpec;
 use MediaWiki\Extension\PDFCreator\Utility\Template;
 use MediaWiki\Extension\PDFCreator\Utility\WikiTemplateParser;
 use MediaWiki\HookContainer\HookContainer;
+use MediaWiki\Html\Html;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
@@ -132,7 +133,9 @@ class Page extends Raw {
 		if ( !$revisionRecord ) {
 			$pageParams['content'] .= '<p>' . wfMessage( 'pdfcreator-content-non-existing-page' ) . '</p>';
 		} else {
+			$pageParams['content'] .= $this->getEmptyPageBugFix();
 			$pageParams['content'] .= $this->getPageContent( $revisionRecord, $pageContext );
+			$pageParams['content'] .= $this->getEmptyPageBugFix();
 		}
 		$this->addPageContent( $pageSpec, $title, $workspace, $template, $wrapper, $pageParams );
 
@@ -176,4 +179,18 @@ class Page extends Raw {
 		return $xHtml;
 	}
 
+	/**
+	 * I am here to prevent empty page bug
+	 *
+	 * @return string
+	 */
+	private function getEmptyPageBugFix(): string {
+		return Html::element(
+				'span',
+				[
+					'style' => 'visibility:hidden; max-height: 0;'
+				],
+				'&nbsp;'
+			);
+	}
 }
