@@ -121,7 +121,7 @@ class PDFCreatorTemplateHandler extends TextContentHandler {
 			$text = $this->getContent( $content, $cpoParams );
 			$tabPanels[] = new TabPanelLayout( $slot, [
 				'classes' => [ 'pdf-creator-template-tab-' . $slot ],
-				'label' => wfMessage( 'pdfcreator-tab-panel-' . $slot . '-label' )->plain(),
+				'label' => wfMessage( 'pdfcreator-tab-panel-' . $slot . '-label' )->text(),
 				'content' => new FieldsetLayout( [
 					'classes' => [ 'pdf-creator-template-tab-fieldset' ],
 					'items' => [
