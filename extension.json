@@ -514,7 +514,7 @@
 		},
 		"discovery-skin": {
 			"class": "\\MediaWiki\\Extension\\PDFCreator\\MediaWiki\\Hook\\BlueSpiceDiscoverySkinHandler",
-			"services": [ "NamespaceInfo", "PermissionManager" ]
+			"services": [ "NamespaceInfo", "PermissionManager", "SpecialPageFactory" ]
 		},
 		"excludeStart": {
 			"class": "\\MediaWiki\\Extension\\PDFCreator\\MediaWiki\\Hook\\ParserFirstCallInit\\NoExportStart"
