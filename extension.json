@@ -127,6 +127,9 @@
 				},
 				"objects": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\ObjectProcessor"
+				},
+				"button": {
+					"class": "MediaWiki\\Extension\\PDFCreator\\Processor\\ButtonProcessor"
 				}
 			},
 			"PostProcessors": {},
