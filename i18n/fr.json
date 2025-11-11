@@ -36,8 +36,6 @@
 	"pdfcreator-config-default-pdf-template-help": "Définit le modèle par défaut pour les exportations de pages. Ce modèle doit exister en tant que sous-page de MediaWiki:PDFCreator.",
 	"pdfcreator-dialog-button-title": "Ouvrir la boîte de dialogue d'exportation",
 	"pdfcreator-dialog-button-text": "Exporter",
-	"pdfcreator-config-suppress-namespace": "Masquer le préfixe de l’espace de noms dans les PDF",
-	"pdfcreator-config-suppress-namespace-help": "Supprime le préfixe d'espace de noms des titres et du paramètre de modèle « titre » dans la sortie PDF",
 	"pdfcreator-config-coverbackground": "Image d'arrière-plan de couverture par défaut dans les modèles PDF",
 	"pdfcreator-config-coverbackground-help": "Définit une image d'arrière-plan de couverture pour tous les modèles PDF dont l'intro-wrapper est défini par défaut. L'image doit être un fichier téléchargé sur le wiki ou un chemin d'accès valide.",
 	"pdfcreator-pageparam-username": "Affiche le nom d'utilisateur de l'utilisateur exportateur",
