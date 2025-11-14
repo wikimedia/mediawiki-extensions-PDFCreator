@@ -108,6 +108,7 @@ class AttachmentFinderTest extends MediaWikiIntegrationTestCase {
 			$imageMock->method( 'getTimestamp' )->willReturn( $image['timestamp'] );
 			$imageMock->method( 'getSha1' )->willReturn( $image['sha1'] );
 			$imageMock->method( 'getLocalRefPath' )->willReturn( $image['localRefPath'] );
+			$imageMock->method( 'exists' )->willReturn( true );
 			return $imageMock;
 		} );
 
