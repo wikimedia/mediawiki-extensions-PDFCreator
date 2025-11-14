@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\PDFCreator\HtmlProvider;
 
 use DOMDocument;
+use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PDFCreator\Factory\PageParamsFactory;
 use MediaWiki\Extension\PDFCreator\PDFCreator;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
@@ -18,6 +19,7 @@ use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionRenderer;
 use MediaWiki\Title\TitleFactory;
+use MediaWiki\User\User;
 
 class Page extends Raw {
 
@@ -115,7 +117,7 @@ class Page extends Raw {
 		$data['revId'] = $revisionRecord ? $revisionRecord->getId() : 0;
 		$pageContext = new PageContext(
 			$title,
-			$context->getUserIdentity(),
+			User::newFromIdentity( $context->getUserIdentity() ),
 			$data
 		);
 
@@ -155,12 +157,18 @@ class Page extends Raw {
 	 * @return string
 	 */
 	private function getPageContent( RevisionRecord $revisionRecord, PageContext $context ): string {
-		$user = $context->getUser();
 		$this->hookContainer->run( 'PDFCreatorContextBeforeGetPage', [ $context ] );
+
+		$requestContext = RequestContext::getMain();
+		$requestContext->setUser( $context->getUser() );
+		$requestContext->setTitle( $context->getTitle() );
+
 		$options = ParserOptions::newFromContext( $context );
 		$options->setSuppressSectionEditLinks();
 
-		$renderedRevision = $this->revisionRenderer->getRenderedRevision( $revisionRecord, $options, $user );
+		$renderedRevision = $this->revisionRenderer->getRenderedRevision(
+			$revisionRecord, $options, $context->getUser()
+		);
 		$output = $renderedRevision->getRevisionParserOutput();
 
 		$html = new DOMDocument();
