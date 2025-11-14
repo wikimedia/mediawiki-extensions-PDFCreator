@@ -82,6 +82,7 @@ class FileResolverTest extends MediaWikiLangTestCase {
 			$imageMock->method( 'getName' )->willReturn( $name );
 			$imageMock->method( 'getTimestamp' )->willReturn( $image['timestamp'] );
 			$imageMock->method( 'getSha1' )->willReturn( $image['sha1'] );
+			$imageMock->method( 'exists' )->willReturn( true );
 			return $imageMock;
 		} );
 
