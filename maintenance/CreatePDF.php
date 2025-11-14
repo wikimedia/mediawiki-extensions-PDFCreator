@@ -5,6 +5,7 @@
  * @author Daniel Vogel
  */
 
+use MediaWiki\Extension\PDFCreator\IContextSourceAware;
 use MediaWiki\Extension\PDFCreator\IExportMode;
 use MediaWiki\Extension\PDFCreator\ITargetResult;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
@@ -91,11 +92,19 @@ class CreatePDF extends Maintenance {
 			}
 		}
 
+		$context = new ExportContext( $user, $relevantTitle );
+
 		// Use export Modes
 		if ( isset( $params['mode'] ) && $relevantTitle !== null ) {
 			$modeFactory = $services->get( 'PDFCreator.ExportModeFactory' );
 			$modeProvider = $modeFactory->getModeProvider( $params['mode'] );
 			if ( $modeProvider instanceof IExportMode ) {
+				if ( $modeProvider instanceof IContextSourceAware ) {
+					$requestContext = RequestContext::getMain();
+					$requestContext->setUser( User::newFromIdentity( $context->getUserIdentity() ) );
+					$requestContext->setTitle( Title::newFromPageIdentity( $context->getPageIdentity() ) );
+					$modeProvider->setContext( $requestContext );
+				}
 				$pages = $modeProvider->getExportPages( $relevantTitle, $params );
 
 				// Override ExportSpecificaton
@@ -112,8 +121,6 @@ class CreatePDF extends Maintenance {
 				echo "Invalid mode provider";
 			}
 		}
-
-		$context = new ExportContext( $user, $relevantTitle	);
 
 		$result = $pdfCreator->create( $specification, $context );
 		$exportResult = $result->getResult();
