@@ -15,6 +15,7 @@ use MediaWiki\Extension\PDFCreator\Utility\WikiTemplateParser;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
 use MediaWiki\Parser\ParserOptions;
+use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionRenderer;
@@ -95,13 +96,6 @@ class Page extends Raw {
 			);
 		}
 
-		$pageParams = array_merge(
-			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
-			$this->pageParamsFactory->getParams( $title->toPageIdentity(), $context->getUserIdentity() ),
-			$template->getParams()
-		);
-		$pageParams['title'] = htmlspecialchars( $pageSpec->getLabel() );
-
 		$classes = [
 			'pdfcreator-page',
 			'pdfcreator-type-' . $this->getKey(),
@@ -121,6 +115,41 @@ class Page extends Raw {
 			$data
 		);
 
+		$requestContext = RequestContext::getMain();
+		$requestContext->setUser( $pageContext->getUser() );
+		$requestContext->setTitle( $pageContext->getTitle() );
+		$parserOptions = ParserOptions::newFromContext( $requestContext );
+		$parserOptions->setSuppressSectionEditLinks();
+		$parserOutput = $this->getParserOutput( $revisionRecord, $pageContext, $parserOptions );
+
+		$pageParams = array_merge(
+			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
+			$this->pageParamsFactory->getParams( $title->toPageIdentity(), $context->getUserIdentity() ),
+			$template->getParams()
+		);
+
+		if ( isset( $data['force-label'] ) ) {
+			$pageParams['title'] = $pageSpec->getLabel();
+		} else {
+			$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
+			$pageParams['title'] = $parserLabel;
+
+			if ( !isset( $data['display-title'] ) ) {
+				$templateOptions = $template->getOptions();
+				if ( isset( $templateOptions['nsPrefix'] ) && $templateOptions['nsPrefix'] === true ) {
+					if ( !str_contains( $pageParams['title'], $title->getPrefixedText() ) ) {
+						$pageParams['title'] = str_replace(
+							$title->getText(), $title->getPrefixedText(), $pageParams['title']
+						);
+					}
+				} elseif ( !isset( $templateOptions['nsPrefix'] ) || $templateOptions['nsPrefix'] === false ) {
+					$pageParams['title'] = str_replace(
+						$title->getPrefixedText(), $title->getText(), $pageParams['title']
+					);
+				}
+			}
+		}
+
 		$body = $dom->getElementsByTagName( 'body' )->item( 0 );
 		$wrapper = $dom->createElement( 'div', '' );
 		$wrapper->setAttribute( 'class', implode( ' ', $classes ) );
@@ -136,7 +165,7 @@ class Page extends Raw {
 			$pageParams['content'] .= '<p>' . wfMessage( 'pdfcreator-content-non-existing-page' ) . '</p>';
 		} else {
 			$pageParams['content'] .= $this->getEmptyPageBugFix();
-			$pageParams['content'] .= $this->getPageContent( $revisionRecord, $pageContext );
+			$pageParams['content'] .= $this->getPageContent( $parserOutput, $parserOptions );
 			$pageParams['content'] .= $this->getEmptyPageBugFix();
 		}
 		$this->addPageContent( $pageSpec, $title, $workspace, $template, $wrapper, $pageParams );
@@ -154,23 +183,39 @@ class Page extends Raw {
 	/**
 	 * @param RevisionRecord $revisionRecord
 	 * @param PageContext $context
-	 * @return string
+	 * @return ParserOutput
 	 */
-	private function getPageContent( RevisionRecord $revisionRecord, PageContext $context ): string {
+	private function getParserOutput(
+		RevisionRecord $revisionRecord, PageContext $context, ParserOptions $parserOptions
+	): ParserOutput {
 		$this->hookContainer->run( 'PDFCreatorContextBeforeGetPage', [ $context ] );
 
-		$requestContext = RequestContext::getMain();
-		$requestContext->setUser( $context->getUser() );
-		$requestContext->setTitle( $context->getTitle() );
-
-		$options = ParserOptions::newFromContext( $context );
-		$options->setSuppressSectionEditLinks();
-
 		$renderedRevision = $this->revisionRenderer->getRenderedRevision(
-			$revisionRecord, $options, $context->getUser()
+			$revisionRecord, $parserOptions, $context->getUser()
 		);
+
 		$output = $renderedRevision->getRevisionParserOutput();
 
+		return $output;
+	}
+
+	/**
+	 * @param ParserOutput $parserOutput
+	 * @return string
+	 */
+	private function getParserPageTitle( ParserOutput $parserOutput ): string {
+		$parserTitle = $parserOutput->getTitleText();
+		$parserTitle = strip_tags( $parserTitle );
+
+		return $parserTitle;
+	}
+
+	/**
+	 * @param ParserOutput $parserOutput
+	 * @param ParserOptions $parserOptions
+	 * @return string
+	 */
+	private function getPageContent( ParserOutput $parserOutput, ParserOptions $parserOptions ): string {
 		$html = new DOMDocument();
 		// ParserOutput->getText() is deprecated and the replacement is
 		// runOutputPipeline which returns a ParserOutput as well
@@ -178,7 +223,7 @@ class Page extends Raw {
 		// is currently marked as unstable but on many different places its used
 		// as well like EditPage in mediawiki core but also in other extensions -
 		// thats why we decided to use it as well for now
-		$text = $output->runOutputPipeline( $options )->getContentHolderText();
+		$text = $parserOutput->runOutputPipeline( $parserOptions )->getContentHolderText();
 		$htmlText = "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body>" . $text . "</body></html>";
 		$html->loadHTML( $htmlText );
 		$html->documentElement->setAttribute( 'xmlns', 'http://www.w3.org/1999/xhtml' );
