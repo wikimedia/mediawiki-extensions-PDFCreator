@@ -76,6 +76,9 @@ class TocBuilder {
 
 		for ( $index = 0; $index < count( $pages ); $index++ ) {
 			$page = $pages[$index];
+			if ( $page->getType() === 'intro' || $page->getType() === 'outro' ) {
+				continue;
+			}
 
 			$li = $dom->createElement( 'li' );
 			$li->setAttribute( 'class', 'toclevel-' . (string)$curLevel );
@@ -98,7 +101,10 @@ class TocBuilder {
 				$dom->createElement( 'span' )
 			);
 			$tocText->setAttribute( 'class', 'toctext' );
+
+			/** @var DOMDocument */
 			$pageDom = $page->getDOMDocument();
+
 			$firstHeading = $pageDom->getElementById( $page->getUniqueId() );
 			if ( $firstHeading instanceof DOMNode ) {
 				$text = $firstHeading->nodeValue;
