@@ -370,10 +370,6 @@ class Batch implements IExportModule, LoggerAwareInterface {
 			$docTitle = $params['title'];
 		} elseif ( $label !== '' ) {
 			$docTitle = $label;
-		} elseif (
-			isset( $params['title-show-namespace'] ) && BoolValueGet::from( $params['title-show-namespace'] ) === true
-		) {
-			$docTitle = $relevantTitle->getPrefixedText();
 		} else {
 			$docTitle = $relevantTitle->getText();
 		}
@@ -628,7 +624,7 @@ class Batch implements IExportModule, LoggerAwareInterface {
 	): void {
 		if ( count( $pages ) > 1 ) {
 			$tocPageBuilder = new TocBuilder( $this->titleFactory );
-			$html = $tocPageBuilder->getHtml( $pages, $embedPageToc, $this->docTitle );
+			$html = $tocPageBuilder->getHtml( $pages, $embedPageToc );
 			$labelMsg = Message::newFromKey( 'pdfcreator-toc-page-label' );
 			$pageSpec = new PageSpec( 'raw', $labelMsg->text(), '', null, [
 				'content' => $html
