@@ -124,10 +124,8 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 		}
 		$postData = $this->getInitiaUploadPostData( $token, $type );
 
-		// 50MB
-		$thresholdSize = 50 * 1024 * 1024;
-		// 100 files
-		$thresholdCount = 100;
+		$thresholdSize = $this->config->get( 'PDFCreatorOpenHtml2PdfUploadThresholdSize' );
+		$thresholdCount = $this->config->get( 'PDFCreatorOpenHtml2PdfUploadThresholdCount' );
 		$totalSize = 0;
 		$totalCount = 0;
 		foreach ( $files as $name => $path ) {
