@@ -603,6 +603,12 @@
 		"PDFCreatorOpenHtml2PdfServiceUrl": {
 			"value": "http://127.0.0.1:8080/Html2PDF/v1"
 		},
+		"PDFCreatorOpenHtml2PdfUploadThresholdSize": {
+			"value": 52428800
+		},
+		"PDFCreatorOpenHtml2PdfUploadThresholdCount": {
+			"value": 20
+		},
 		"PDFCreatorDefaultTemplate": {
 			"value": "StandardPDF"
 		},
