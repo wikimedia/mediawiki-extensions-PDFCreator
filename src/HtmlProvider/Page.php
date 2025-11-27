@@ -4,6 +4,8 @@ namespace MediaWiki\Extension\PDFCreator\HtmlProvider;
 
 use DOMDocument;
 use DOMElement;
+use DOMException;
+use MediaWiki\Context\IContextSource;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PDFCreator\Factory\PageParamsFactory;
 use MediaWiki\Extension\PDFCreator\PDFCreator;
@@ -39,6 +41,9 @@ class Page extends Raw {
 	/** @var int|null */
 	protected $revisionId = null;
 
+	/** @var array<string, mixed> */
+	private array $originalRequestValues = [];
+
 	/**
 	 * @param TitleFactory $titleFactory
 	 * @param PageParamsFactory $pageParamsFactory
@@ -47,11 +52,15 @@ class Page extends Raw {
 	 * @param RevisionRenderer $revisionRenderer
 	 * @param RevisionLookup $revisionLookup
 	 * @param HookContainer $hookContainer
+	 * @param IContextSource|null $requestContext
 	 */
 	public function __construct(
 		TitleFactory $titleFactory, PageParamsFactory $pageParamsFactory,
 		WikiTemplateParser $wikiTemplateParser, MustacheTemplateParser $mustacheTemplateParser,
-		RevisionRenderer $revisionRenderer, RevisionLookup $revisionLookup, HookContainer $hookContainer
+		RevisionRenderer $revisionRenderer,
+		RevisionLookup $revisionLookup,
+		HookContainer $hookContainer,
+		private ?IContextSource $requestContext = null
 	) {
 		parent::__construct(
 			$titleFactory, $pageParamsFactory, $wikiTemplateParser, $mustacheTemplateParser
@@ -59,6 +68,10 @@ class Page extends Raw {
 		$this->revisionRenderer = $revisionRenderer;
 		$this->revisionLookup = $revisionLookup;
 		$this->hookContainer = $hookContainer;
+
+		if ( $this->requestContext === null ) {
+			$this->requestContext = RequestContext::getMain();
+		}
 	}
 
 	/**
@@ -73,7 +86,9 @@ class Page extends Raw {
 	 * @param Template $template
 	 * @param ExportContext $context
 	 * @param string $workspace
+	 *
 	 * @return DOMDocument
+	 * @throws DOMException
 	 */
 	public function getDOMDocument(
 		PageSpec $pageSpec, Template $template, ExportContext $context, string $workspace
@@ -107,10 +122,18 @@ class Page extends Raw {
 		if ( !$revisionRecord ) {
 			$classes[] = 'pdfcreator-page-new';
 		} else {
-			$requestContext = RequestContext::getMain();
-			$requestContext->setUser( $pageContext->getUser() );
-			$requestContext->setTitle( $pageContext->getTitle() );
-			$parserOptions = ParserOptions::newFromContext( $requestContext );
+			$this->requestContext->setUser( $pageContext->getUser() );
+			$this->requestContext->setTitle( $pageContext->getTitle() );
+
+			// Modify the request to get correct parser output
+			$this->modifyRequest( $data );
+
+			$this->hookContainer->run(
+				'PDFCreatorAfterSetRevision',
+				[ &$revisionRecord, $context->getUserIdentity(), $pageSpec->getParams() ]
+			);
+
+			$parserOptions = ParserOptions::newFromContext( $this->requestContext );
 			$parserOptions->setSuppressSectionEditLinks();
 			$parserOutput = $this->getParserOutput( $revisionRecord, $pageContext, $parserOptions );
 		}
@@ -142,6 +165,9 @@ class Page extends Raw {
 			$pageParams['content'] .= $this->getPageContent( $parserOutput, $parserOptions );
 			$pageParams['content'] .= $this->getEmptyPageBugFix();
 		}
+
+		$this->restoreOriginalRequest();
+
 		$this->addPageContent( $pageSpec, $title, $workspace, $template, $wrapper, $pageParams );
 
 		$body->appendChild( $wrapper );
@@ -208,12 +234,7 @@ class Page extends Raw {
 			$revisionId = $title->getLatestRevID();
 			$revisionRecord = $this->revisionLookup->getRevisionByTitle( $title, $revisionId );
 		}
-		if ( $revisionRecord ) {
-			$this->hookContainer->run(
-				'PDFCreatorAfterSetRevision',
-				[ &$revisionRecord, $context->getUserIdentity(), $pageSpec->getParams() ]
-			);
-		}
+
 		return $revisionRecord;
 	}
 
@@ -310,17 +331,67 @@ class Page extends Raw {
 	}
 
 	/**
+	 * For the processing pipeline, in order to get correct parser output we might need to modify the request in
+	 * the way it would be done on a normal page view request.
+	 * E.g. for ContentStabilization
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	private function modifyRequest( array $data ): void {
+		$request = $this->requestContext->getRequest();
+		$this->originalRequestValues = $request->getValues();
+
+		foreach ( $data as $key => $value ) {
+			if ( !is_scalar( $value ) ) {
+				continue;
+			}
+
+			if ( $key === 'revId' ) {
+				$key = 'oldid';
+			}
+
+			$request->setVal( $key, $value );
+		}
+	}
+
+	/**
+	 * Restore original request values after modification.
+	 *
+	 * @return void
+	 */
+	private function restoreOriginalRequest(): void {
+		if ( empty( $this->originalRequestValues ) ) {
+			return;
+		}
+
+		$request = $this->requestContext->getRequest();
+
+		foreach ( $request->getValues() as $key => $value ) {
+			$originalValue = $this->originalRequestValues[$key] ?? null;
+
+			if ( $originalValue === null ) {
+				$request->unsetVal( $key );
+				continue;
+			}
+
+			$request->setVal( $key, $originalValue );
+		}
+	}
+
+	/**
 	 * I am here to prevent empty page bug
 	 *
 	 * @return string
 	 */
 	private function getEmptyPageBugFix(): string {
 		return Html::element(
-				'span',
-				[
-					'style' => 'visibility:hidden; max-height: 0;'
-				],
-				'&nbsp;'
-			);
+			'span',
+			[
+				'style' => 'visibility:hidden; max-height: 0;'
+			],
+			'&nbsp;'
+		);
 	}
 }
