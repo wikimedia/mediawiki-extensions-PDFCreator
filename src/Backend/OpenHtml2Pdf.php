@@ -59,6 +59,11 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 	 * @return string
 	 */
 	public function create( ExportResources $resources, array $params = [] ): string {
+		$debug = false;
+		if ( isset( $params['debug'] ) && BoolValueGet::from( $params['debug'] ) === true ) {
+			$debug = true;
+		}
+
 		$token = md5( $resources->getHtml() );
 
 		# Upload all images
@@ -75,11 +80,12 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 		file_put_contents( $tmpHtmlFilename, $resources->getHtml() );
 
 		$this->doUpload( $token, [ $tmpHtmlFilename ] );
-		if ( !isset( $params['debug'] ) || BoolValueGet::from( $params['debug'] ) !== true ) {
+
+		if ( !$debug ) {
 			unlink( $tmpHtmlFilename );
 		}
 
-		$postData = $this->getInitialRendererPostData( $token );
+		$postData = $this->getInitialRendererPostData( $token, $debug );
 
 		$response = $this->guzzle->request( 'POST', $this->rendererUrl, [
 			'form_params' => $postData
@@ -190,14 +196,20 @@ class OpenHtml2Pdf implements IExportBackend, LoggerAwareInterface {
 
 	/**
 	 * @param string $token
+	 * @param bool $debug
 	 * @return array
 	 */
-	private function getInitialRendererPostData( string $token ): array {
-		return [
+	private function getInitialRendererPostData( string $token, bool $debug ): array {
+		$data = [
 			'wikiId' => 'html2pdftest',
 			'documentToken' => $token,
-			'debug' => 'true'
 		];
+
+		if ( $debug ) {
+			$data['debug'] = 'true';
+		}
+
+		return $data;
 	}
 
 	/**
