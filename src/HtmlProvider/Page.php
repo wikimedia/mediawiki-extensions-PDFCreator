@@ -96,16 +96,6 @@ class Page extends Raw {
 			);
 		}
 
-		$classes = [
-			'pdfcreator-page',
-			'pdfcreator-type-' . $this->getKey(),
-			'ns-' . $title->getNamespace(),
-			'page-' . str_replace( ':', '_', $title->getPrefixedDBkey() )
-		];
-		if ( !$revisionRecord ) {
-			$classes[] = 'pdfcreator-page-new';
-		}
-
 		// Export context holds relevant page as title. This is not necessarily the same as page title.
 		$data = $pageSpec->getParams();
 		$data['revId'] = $revisionRecord ? $revisionRecord->getId() : 0;
@@ -115,12 +105,24 @@ class Page extends Raw {
 			$data
 		);
 
-		$requestContext = RequestContext::getMain();
-		$requestContext->setUser( $pageContext->getUser() );
-		$requestContext->setTitle( $pageContext->getTitle() );
-		$parserOptions = ParserOptions::newFromContext( $requestContext );
-		$parserOptions->setSuppressSectionEditLinks();
-		$parserOutput = $this->getParserOutput( $revisionRecord, $pageContext, $parserOptions );
+		$classes = [
+			'pdfcreator-page',
+			'pdfcreator-type-' . $this->getKey(),
+			'ns-' . $title->getNamespace(),
+			'page-' . str_replace( ':', '_', $title->getPrefixedDBkey() )
+		];
+
+		$parserOutput = null;
+		if ( !$revisionRecord ) {
+			$classes[] = 'pdfcreator-page-new';
+		} else {
+			$requestContext = RequestContext::getMain();
+			$requestContext->setUser( $pageContext->getUser() );
+			$requestContext->setTitle( $pageContext->getTitle() );
+			$parserOptions = ParserOptions::newFromContext( $requestContext );
+			$parserOptions->setSuppressSectionEditLinks();
+			$parserOutput = $this->getParserOutput( $revisionRecord, $pageContext, $parserOptions );
+		}
 
 		$pageParams = array_merge(
 			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
@@ -131,8 +133,12 @@ class Page extends Raw {
 		if ( isset( $data['force-label'] ) ) {
 			$pageParams['title'] = $pageSpec->getLabel();
 		} else {
-			$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
-			$pageParams['title'] = $parserLabel;
+			if ( !$parserOutput ) {
+				$pageParams['title'] = $pageSpec->getLabel();
+			} else {
+				$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
+				$pageParams['title'] = $parserLabel;
+			}
 
 			if ( !isset( $data['display-title'] ) ) {
 				$templateOptions = $template->getOptions();
@@ -161,7 +167,7 @@ class Page extends Raw {
 			$workspace, $template, $wrapper, $pageParams );
 
 		$pageParams['content'] = $this->getPageTitle( $pageSpec, $pageParams['title'] );
-		if ( !$revisionRecord ) {
+		if ( !$parserOutput ) {
 			$pageParams['content'] .= '<p>' . wfMessage( 'pdfcreator-content-non-existing-page' ) . '</p>';
 		} else {
 			$pageParams['content'] .= $this->getEmptyPageBugFix();
