@@ -10,7 +10,7 @@ use MediaWiki\Extension\PDFCreator\Utility\PageSpec;
 use MediaWiki\Extension\PDFCreator\Utility\Template;
 use MediaWiki\Title\Title;
 
-class Intro extends Raw {
+class Intro extends Page {
 
 	/**
 	 * @return string
@@ -37,6 +37,11 @@ class Intro extends Raw {
 		PageSpec $pageSpec, Template $template, ExportContext $context, string $workspace
 	): DOMDocument {
 		$title = $this->titleFactory->newFromPageIdentity( $context->getPageIdentity() );
+		$revisionRecord = $this->getRevisionRecord( $pageSpec, $title, $context );
+		if ( $revisionRecord ) {
+			$this->revisionId = $revisionRecord->getId();
+		}
+
 		$pageParams = array_merge(
 			$this->pageParamsFactory->getParams( $context->getPageIdentity(), $context->getUserIdentity() ),
 			$template->getParams()
@@ -77,6 +82,7 @@ class Intro extends Raw {
 		$path = "{$workspace}/{$key}.mustache";
 		$input = $template->getIntro();
 
+		$this->wikiTemplateParser->setRevisionId( $this->revisionId );
 		$parsedWiki = $this->wikiTemplateParser->execute( $input, $title->toPageIdentity() );
 		if ( $parsedWiki === '' ) {
 			return;

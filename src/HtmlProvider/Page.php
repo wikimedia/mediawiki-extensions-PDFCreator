@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\PDFCreator\HtmlProvider;
 
 use DOMDocument;
+use DOMElement;
 use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PDFCreator\Factory\PageParamsFactory;
 use MediaWiki\Extension\PDFCreator\PDFCreator;
@@ -14,24 +15,29 @@ use MediaWiki\Extension\PDFCreator\Utility\Template;
 use MediaWiki\Extension\PDFCreator\Utility\WikiTemplateParser;
 use MediaWiki\HookContainer\HookContainer;
 use MediaWiki\Html\Html;
+use MediaWiki\Page\PageIdentity;
 use MediaWiki\Parser\ParserOptions;
 use MediaWiki\Parser\ParserOutput;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\Revision\RevisionRenderer;
+use MediaWiki\Title\Title;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\User;
 
 class Page extends Raw {
 
 	/** @var RevisionRenderer */
-	private $revisionRenderer;
+	protected $revisionRenderer;
 
 	/** @var RevisionLookup */
-	private $revisionLookup;
+	protected $revisionLookup;
 
 	/** @var HookContainer */
-	private $hookContainer;
+	protected $hookContainer;
+
+	/** @var int|null */
+	protected $revisionId = null;
 
 	/**
 	 * @param TitleFactory $titleFactory
@@ -76,24 +82,9 @@ class Page extends Raw {
 		$dom->loadXML( PDFCreator::HTML_STUB );
 
 		$title = $this->titleFactory->newFromText( $pageSpec->getPrefixedDBKey() );
-
-		if ( !$pageSpec->getRevisionId() ) {
-			$revisionId = $title->getLatestRevID();
-		} else {
-			$revisionId = $pageSpec->getRevisionId();
-		}
-
-		$revisionRecord = $this->revisionLookup->getRevisionByTitle( $title, $revisionId );
-		if ( !$revisionRecord ) {
-			// Fallback is spec contains wrong revision id
-			$revisionId = $title->getLatestRevID();
-			$revisionRecord = $this->revisionLookup->getRevisionByTitle( $title, $revisionId );
-		}
+		$revisionRecord = $this->getRevisionRecord( $pageSpec, $title, $context );
 		if ( $revisionRecord ) {
-			$this->hookContainer->run(
-				'PDFCreatorAfterSetRevision',
-				[ &$revisionRecord, $context->getUserIdentity(), $pageSpec->getParams() ]
-			);
+			$this->revisionId = $revisionRecord->getId();
 		}
 
 		// Export context holds relevant page as title. This is not necessarily the same as page title.
@@ -187,6 +178,34 @@ class Page extends Raw {
 	}
 
 	/**
+	 * @param PageSpec $pageSpec
+	 * @param Title $title
+	 * @param ExportContext $context
+	 * @return RevisionRecord
+	 */
+	protected function getRevisionRecord( PageSpec $pageSpec, Title $title, ExportContext $context ): RevisionRecord {
+		if ( !$pageSpec->getRevisionId() ) {
+			$revisionId = $title->getLatestRevID();
+		} else {
+			$revisionId = $pageSpec->getRevisionId();
+		}
+
+		$revisionRecord = $this->revisionLookup->getRevisionByTitle( $title, $revisionId );
+		if ( !$revisionRecord ) {
+			// Fallback is spec contains wrong revision id
+			$revisionId = $title->getLatestRevID();
+			$revisionRecord = $this->revisionLookup->getRevisionByTitle( $title, $revisionId );
+		}
+		if ( $revisionRecord ) {
+			$this->hookContainer->run(
+				'PDFCreatorAfterSetRevision',
+				[ &$revisionRecord, $context->getUserIdentity(), $pageSpec->getParams() ]
+			);
+		}
+		return $revisionRecord;
+	}
+
+	/**
 	 * @param RevisionRecord $revisionRecord
 	 * @param PageContext $context
 	 * @return ParserOutput
@@ -235,6 +254,45 @@ class Page extends Raw {
 		$node = $html->getElementsByTagName( 'body' )->item( 0 )->firstChild;
 		$xHtml = $html->saveXML( $node );
 		return $xHtml;
+	}
+
+	/**
+	 * @param string $key
+	 * @param PageIdentity|null $pageIdentity
+	 * @param string $workspace
+	 * @param Template $template
+	 * @param DOMElement $body
+	 * @param array $params
+	 * @return void
+	 */
+	protected function addRunningElement(
+		string $key, ?PageIdentity $pageIdentity, string $workspace, Template $template,
+		DOMElement $body, $params = []
+	): void {
+		$path = "{$workspace}/{$key}.mustache";
+
+		if ( $key === PDFCreator::HEADER ) {
+			$input = $template->getHeader();
+		} elseif ( $key === PDFCreator::FOOTER ) {
+			$input = $template->getFooter();
+		} else {
+			return;
+		}
+
+		$this->wikiTemplateParser->setRevisionId( $this->revisionId );
+		$parsedWiki = $this->wikiTemplateParser->execute( $input, $pageIdentity );
+		if ( $parsedWiki === '' ) {
+			return;
+		}
+
+		file_put_contents( $path, $parsedWiki );
+		$parsedMustache = $this->mustacheTemplateParser->execute( $workspace, $key, $params );
+		unlink( $path );
+
+		$templateFragment = $body->ownerDocument->createDocumentFragment();
+		$templateFragment->appendXML( $parsedMustache );
+
+		$body->appendChild( $templateFragment );
 	}
 
 	/**
