@@ -44,14 +44,16 @@
 					"class": "MediaWiki\\Extension\\PDFCreator\\HtmlProvider\\Intro",
 					"services": [
 						"TitleFactory", "PDFCreator.PageParamsFactory",
-						"PDFCreator.WikiTemplateParser", "PDFCreator.MustacheTemplateParser"
+						"PDFCreator.WikiTemplateParser", "PDFCreator.MustacheTemplateParser",
+						"RevisionRenderer", "RevisionLookup", "HookContainer"
 					]
 				},
 				"outro": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\HtmlProvider\\Outro",
 					"services": [
 						"TitleFactory", "PDFCreator.PageParamsFactory",
-						"PDFCreator.WikiTemplateParser", "PDFCreator.MustacheTemplateParser"
+						"PDFCreator.WikiTemplateParser", "PDFCreator.MustacheTemplateParser",
+						"RevisionRenderer", "RevisionLookup", "HookContainer"
 					]
 				},
 				"raw": {
