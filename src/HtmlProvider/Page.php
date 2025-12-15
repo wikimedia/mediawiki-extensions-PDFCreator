@@ -120,29 +120,9 @@ class Page extends Raw {
 			$this->pageParamsFactory->getParams( $title->toPageIdentity(), $context->getUserIdentity() ),
 			$template->getParams()
 		);
-
-		$pageParams['title'] = $pageSpec->getLabel();
-		if ( !isset( $data['force-label'] ) ) {
-			if ( $parserOutput ) {
-				$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
-				$pageParams['title'] = $parserLabel;
-			}
-
-			if ( !isset( $data['display-title'] ) ) {
-				$templateOptions = $template->getOptions();
-				if ( isset( $templateOptions['nsPrefix'] ) && $templateOptions['nsPrefix'] === true ) {
-					if ( !str_contains( $pageParams['title'], $title->getPrefixedText() ) ) {
-						$pageParams['title'] = str_replace(
-							$title->getText(), $title->getPrefixedText(), $pageParams['title']
-						);
-					}
-				} elseif ( !isset( $templateOptions['nsPrefix'] ) || $templateOptions['nsPrefix'] === false ) {
-					$pageParams['title'] = str_replace(
-						$title->getPrefixedText(), $title->getText(), $pageParams['title']
-					);
-				}
-			}
-		}
+		$pageParams['title'] = $this->getPageParamsTitle(
+			$title, $pageSpec, $parserOutput, $template, $data
+		);
 
 		$body = $dom->getElementsByTagName( 'body' )->item( 0 );
 		$wrapper = $dom->createElement( 'div', '' );
@@ -172,6 +152,41 @@ class Page extends Raw {
 		);
 
 		return $dom;
+	}
+
+	/**
+	 * @param Title $title
+	 * @param PageSpec $pageSpec
+	 * @param ParserOutput|null $parserOutput
+	 * @param Template $template
+	 * @param array $data
+	 * @return string
+	 */
+	protected function getPageParamsTitle(
+		Title $title, PageSpec $pageSpec, ?ParserOutput $parserOutput, Template $template, array $data ): string {
+		$pageParamsTitle = $pageSpec->getLabel();
+		if ( !isset( $data['force-label'] ) ) {
+			if ( $parserOutput ) {
+				$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
+				$pageParamsTitle = $parserLabel;
+			}
+
+			if ( !isset( $data['display-title'] ) ) {
+				$templateOptions = $template->getOptions();
+				if ( isset( $templateOptions['nsPrefix'] ) && $templateOptions['nsPrefix'] === true ) {
+					if ( !str_contains( $pageParamsTitle, $title->getPrefixedText() ) ) {
+						$pageParamsTitle = str_replace(
+							$title->getText(), $title->getPrefixedText(), $pageParamsTitle
+						);
+					}
+				} elseif ( !isset( $templateOptions['nsPrefix'] ) || $templateOptions['nsPrefix'] === false ) {
+					$pageParamsTitle = str_replace(
+						$title->getPrefixedText(), $title->getText(), $pageParamsTitle
+					);
+				}
+			}
+		}
+		return $pageParamsTitle;
 	}
 
 	/**
@@ -207,7 +222,7 @@ class Page extends Raw {
 	 * @param PageContext $context
 	 * @return ParserOutput
 	 */
-	private function getParserOutput(
+	protected function getParserOutput(
 		RevisionRecord $revisionRecord, PageContext $context, ParserOptions $parserOptions
 	): ParserOutput {
 		$this->hookContainer->run( 'PDFCreatorContextBeforeGetPage', [ $context ] );
