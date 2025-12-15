@@ -121,12 +121,9 @@ class Page extends Raw {
 			$template->getParams()
 		);
 
-		if ( isset( $data['force-label'] ) ) {
-			$pageParams['title'] = $pageSpec->getLabel();
-		} else {
-			if ( !$parserOutput ) {
-				$pageParams['title'] = $pageSpec->getLabel();
-			} else {
+		$pageParams['title'] = $pageSpec->getLabel();
+		if ( !isset( $data['force-label'] ) ) {
+			if ( $parserOutput ) {
 				$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
 				$pageParams['title'] = $parserLabel;
 			}
@@ -181,9 +178,9 @@ class Page extends Raw {
 	 * @param PageSpec $pageSpec
 	 * @param Title $title
 	 * @param ExportContext $context
-	 * @return RevisionRecord
+	 * @return RevisionRecord|null
 	 */
-	protected function getRevisionRecord( PageSpec $pageSpec, Title $title, ExportContext $context ): RevisionRecord {
+	protected function getRevisionRecord( PageSpec $pageSpec, Title $title, ExportContext $context ): ?RevisionRecord {
 		if ( !$pageSpec->getRevisionId() ) {
 			$revisionId = $title->getLatestRevID();
 		} else {
@@ -279,7 +276,9 @@ class Page extends Raw {
 			return;
 		}
 
-		$this->wikiTemplateParser->setRevisionId( $this->revisionId );
+		if ( $this->revisionId !== null ) {
+			$this->wikiTemplateParser->setRevisionId( $this->revisionId );
+		}
 		$parsedWiki = $this->wikiTemplateParser->execute( $input, $pageIdentity );
 		if ( $parsedWiki === '' ) {
 			return;
