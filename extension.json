@@ -567,7 +567,8 @@
 				"PDFCreator.ExportSpecificationFactory",
 				"PDFCreator.ExportModeFactory",
 				"PDFCreator",
-				"PermissionManager"
+				"PermissionManager",
+				"PDFCreator.TemplateProviderFactory"
 			]
 		},
 		{
