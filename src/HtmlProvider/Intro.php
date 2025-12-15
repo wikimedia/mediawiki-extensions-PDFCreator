@@ -82,7 +82,9 @@ class Intro extends Page {
 		$path = "{$workspace}/{$key}.mustache";
 		$input = $template->getIntro();
 
-		$this->wikiTemplateParser->setRevisionId( $this->revisionId );
+		if ( $this->revisionId !== null ) {
+			$this->wikiTemplateParser->setRevisionId( $this->revisionId );
+		}
 		$parsedWiki = $this->wikiTemplateParser->execute( $input, $title->toPageIdentity() );
 		if ( $parsedWiki === '' ) {
 			return;
