@@ -149,16 +149,20 @@ class PageWithLinkedPages extends Page implements IContextSourceAware {
 	private function getLinkedPages( DOMDocument $dom ): array {
 		$linkedTitles = [];
 
-		$links = $dom->getElementsByTagName( 'a' );
+		$excludeClasses = [ 'new', 'external', 'media' ];
 
+		$links = $dom->getElementsByTagName( 'a' );
 		foreach ( $links as $link ) {
 			if ( !$link->hasAttribute( 'href' ) ) {
+				continue;
+			}
+			$href = $link->hasAttribute( 'href' );
+			if ( strpos( $href, '#' ) === 0 || strpos( $href, 'javascript:' ) === 0 ) {
 				continue;
 			}
 
 			$class = $link->getAttribute( 'class' );
 			$classes = explode( ' ', $class );
-			$excludeClasses = [ 'new', 'external', 'media' ];
 
 			// HINT: http://stackoverflow.com/questions/7542694/in-array-multiple-values
 			if ( count( array_intersect( $classes, $excludeClasses ) ) > 0 ) {
