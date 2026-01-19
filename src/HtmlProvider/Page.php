@@ -212,7 +212,7 @@ class Page extends Raw {
 				}
 			}
 		}
-		return $pageParamsTitle;
+		return htmlspecialchars( $pageParamsTitle );
 	}
 
 	/**
