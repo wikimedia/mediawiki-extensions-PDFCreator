@@ -71,6 +71,10 @@ class UrlHelperTest extends \MediaWikiIntegrationTestCase {
 				'http://example.test/wiki/index.php?title=Sandbox#test&abc',
 				'Sandbox'
 			],
+			'normal url with namespace and german chars' => [
+				'/wiki/MediaWiki:Sandbox%C3%A4',
+				'Sandboxä'
+			],
 			'image from script' => [
 				'/w/nsfr_img_auth.php/b/bf/Sandbox.svg',
 				'Sandbox.svg'
