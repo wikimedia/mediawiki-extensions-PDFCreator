@@ -112,8 +112,8 @@ class PageSpecFactory implements LoggerAwareInterface {
 		}
 
 		$revId = null;
-		if ( isset( $data['rev-id'] ) && is_numeric( $data['rev-id'] ) ) {
-			$revId = $data['rev-id'];
+		if ( isset( $params['rev-id'] ) && is_numeric( $params['rev-id'] ) ) {
+			$revId = $params['rev-id'];
 		}
 
 		$label = '';
