@@ -92,11 +92,19 @@ class PageWithLinkedPages extends Page implements IContextSourceAware {
 			$revisionRecord = $this->revisionLookup->getRevisionByTitle( $title, $revisionId );
 		}
 
+		$params = $data;
+		$params['rev-id'] = $revisionId;
+		if ( isset( $params['revId'] ) ) {
+			unset( $params['revId'] );
+		}
+		if ( isset( $data['revId'] ) ) {
+			unset( $data['revId'] );
+		}
+
 		$pages[] = [
 			'type' => 'page',
 			'target' => $title->getPrefixedDBkey(),
-			'rev-id' => $revisionId,
-			'params' => $data
+			'params' => $params
 		];
 
 		if ( $revisionRecord ) {

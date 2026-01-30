@@ -102,9 +102,11 @@ class Page extends Raw {
 			$this->revisionId = $revisionRecord->getId();
 		}
 
-		// Export context holds relevant page as title. This is not necessarily the same as page title.
+		// Preparing data for page export
 		$data = $pageSpec->getParams();
-		$data['revId'] = $revisionRecord ? $revisionRecord->getId() : 0;
+		$data['rev-id'] = $revisionRecord ? $revisionRecord->getId() : 0;
+
+		// Export context holds relevant page as title. This is not necessarily the same as page title.
 		$pageContext = new PageContext(
 			$title,
 			User::newFromIdentity( $context->getUserIdentity() ),
@@ -125,12 +127,9 @@ class Page extends Raw {
 			$this->requestContext->setUser( $pageContext->getUser() );
 			$this->requestContext->setTitle( $pageContext->getTitle() );
 
-			// Modify the request to get correct parser output
-			$this->modifyRequest( $data );
-
 			$this->hookContainer->run(
 				'PDFCreatorAfterSetRevision',
-				[ &$revisionRecord, $context->getUserIdentity(), $pageSpec->getParams() ]
+				[ &$revisionRecord, $context->getUserIdentity(), $data ]
 			);
 
 			$parserOptions = ParserOptions::newFromContext( $this->requestContext );
@@ -165,8 +164,6 @@ class Page extends Raw {
 			$pageParams['content'] .= $this->getPageContent( $parserOutput, $parserOptions );
 			$pageParams['content'] .= $this->getEmptyPageBugFix();
 		}
-
-		$this->restoreOriginalRequest();
 
 		$this->addPageContent( $pageSpec, $title, $workspace, $template, $wrapper, $pageParams );
 
@@ -328,56 +325,6 @@ class Page extends Raw {
 		$templateFragment->appendXML( $parsedMustache );
 
 		$body->appendChild( $templateFragment );
-	}
-
-	/**
-	 * For the processing pipeline, in order to get correct parser output we might need to modify the request in
-	 * the way it would be done on a normal page view request.
-	 * E.g. for ContentStabilization
-	 *
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	private function modifyRequest( array $data ): void {
-		$request = $this->requestContext->getRequest();
-		$this->originalRequestValues = $request->getValues();
-
-		foreach ( $data as $key => $value ) {
-			if ( !is_scalar( $value ) ) {
-				continue;
-			}
-
-			if ( $key === 'revId' ) {
-				$key = 'oldid';
-			}
-
-			$request->setVal( $key, $value );
-		}
-	}
-
-	/**
-	 * Restore original request values after modification.
-	 *
-	 * @return void
-	 */
-	private function restoreOriginalRequest(): void {
-		if ( empty( $this->originalRequestValues ) ) {
-			return;
-		}
-
-		$request = $this->requestContext->getRequest();
-
-		foreach ( $request->getValues() as $key => $value ) {
-			$originalValue = $this->originalRequestValues[$key] ?? null;
-
-			if ( $originalValue === null ) {
-				$request->unsetVal( $key );
-				continue;
-			}
-
-			$request->setVal( $key, $originalValue );
-		}
 	}
 
 	/**
