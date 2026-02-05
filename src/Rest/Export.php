@@ -99,26 +99,24 @@ class Export extends SimpleHandler {
 
 		$mode = isset( $data['mode'] ) ? $data['mode'] : 'page';
 
+		$allTemplateNames = $this->templateProviderFactory->getAvailableTemplateNames();
+		if ( empty( $allTemplateNames ) ) {
+			return $this->getResponseFactory()->createHttpError( 404, [ 'No templates available' ] );
+		}
+
 		$template = null;
 		$options = [];
 		if ( isset( $data['template'] ) && $data['template'] !== '' ) {
 			$templateProvider = $this->templateProviderFactory->getTemplateProviderFor( $data['template'] );
 			$template = $templateProvider->getTemplate( $context, $data['template'] );
-			if ( !$template ) {
-				return $this->getResponseFactory()->createHttpError( 404, [ 'Invalid template requested' ] );
-			}
-			$options = $template->getOptions();
 		} else {
-			$allTemplateNames = $this->templateProviderFactory->getAvailableTemplateNames();
-			if ( empty( $allTemplateNames ) ) {
-				return $this->getResponseFactory()->createHttpError( 404, [ 'No templates available' ] );
-			}
 			$templateProvider = $this->templateProviderFactory->getTemplateProviderFor( $allTemplateNames[0] );
-			if ( !$template ) {
-				return $this->getResponseFactory()->createHttpError( 404, [ 'Invalid template requested' ] );
-			}
-			$options = $template->getOptions();
+			$template = $templateProvider->getTemplate( $context );
 		}
+		if ( !$template ) {
+			return $this->getResponseFactory()->createHttpError( 404, [ 'Invalid template requested' ] );
+		}
+		$options = $template->getOptions();
 
 		$title = $relevantTitle->getText();
 		if ( isset( $options['nsPrefix'] ) && BoolValueGet::from( $options['nsPrefix'] ) === true ) {

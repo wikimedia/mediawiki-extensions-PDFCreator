@@ -123,6 +123,7 @@ class WikiTemplateProviderTest extends \MediaWikiIntegrationTestCase {
 		$util->templatePrefix = 'pdfcreator_template_';
 		$util->slots = [ 'header', 'body', 'footer', 'intro', 'outro', 'styles', 'options' ];
 		$util->method( 'createPDFTemplateTitle' )->willReturn( $templateTitle );
+		$util->method( 'getAllWikiTemplates' )->willReturn( [ 'TestTemplate' ] );
 
 		return $util;
 	}
