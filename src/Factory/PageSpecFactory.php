@@ -118,10 +118,10 @@ class PageSpecFactory implements LoggerAwareInterface {
 
 		$label = '';
 		if ( isset( $data['label'] ) && $data['label'] !== '' ) {
-			$label = htmlspecialchars( $data['label'] );
+			$label = $data['label'];
 			$params['force-label'] = true;
 		} elseif ( $title instanceof Title ) {
-			$label = htmlspecialchars( $this->getLabelFromTitle( $title, $options ) );
+			$label = $this->getLabelFromTitle( $title, $options );
 		}
 		if ( $label === '' ) {
 			return null;
