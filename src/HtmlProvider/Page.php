@@ -191,7 +191,7 @@ class Page extends Raw {
 		if ( !isset( $data['force-label'] ) ) {
 			if ( $parserOutput ) {
 				$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
-				$pageParamsTitle = $parserLabel;
+				$pageParamsTitle = html_entity_decode( $parserLabel );
 			}
 
 			if ( !isset( $data['display-title'] ) ) {
