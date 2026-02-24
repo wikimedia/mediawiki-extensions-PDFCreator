@@ -3,7 +3,8 @@
 		"authors": [
 			"Bananax47",
 			"Escargot bleu",
-			"JLTRY"
+			"JLTRY",
+			"Yupik"
 		]
 	},
 	"pdfcreator-name": "Créateur de PDF",
@@ -22,7 +23,7 @@
 	"pdfcreator-pdf-param-totalpagescount-label": "de",
 	"pdfcreator-tab-panel-intro-label": "Préface du document",
 	"pdfcreator-tab-panel-outro-label": "Annexe du document",
-	"pdfcreator-editor-action-save-label": "Sauvegarder",
+	"pdfcreator-editor-action-save-label": "Enregistrer",
 	"pdfcreator-editor-action-help-label": "Aide",
 	"pdfcreator-config-template-provider": "Configurer le fournisseur de modèles PDFCreator",
 	"pdfcreator-export-mode-page-label": "Page",
