@@ -74,7 +74,7 @@
 			"TemplateProvider": {
 				"wiki": {
 					"class": "MediaWiki\\Extension\\PDFCreator\\TemplateProvider\\Wiki",
-					"services": [ "MainConfig", "PDFCreator.Util", "RevisionLookup", "TitleFactory" ]
+					"services": [ "MainConfig", "PDFCreator.Util", "RevisionLookup", "TitleFactory", "RepoGroup" ]
 				}
 			},
 			"BackendProvider": {
