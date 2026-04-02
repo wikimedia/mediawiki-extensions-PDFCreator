@@ -1,6 +1,7 @@
 {
 	"@metadata": {
 		"authors": [
+			"GuoPC",
 			"Peterxy12"
 		]
 	},
@@ -127,5 +128,30 @@
 	"pdfcreator-dump-namespaces-mail-body-text-fail": "失败",
 	"pdfcreator-tag-no-export-start-ve-label": "PDF排除 - 开始",
 	"pdfcreator-tag-no-export-end-ve-label": "PDF排除 - 结束",
-	"pdfcreator-global-action-overview": "PDF模板"
+	"pdfcreator-global-action-overview": "PDF模板",
+	"pdfcreator-editor-error-label": "标签页<strong>$1</strong>的第<strong>$2</strong>行有错误：$3",
+	"pdfcreator-editor-error-missing-content": "标签页“内容”缺少<code>{{{content}}}</code>",
+	"pdfcreator-config-default-pdf-template-help": "设置页面导出的默认模板。该模板必须以MediaWiki:PDFCreator的子页面存在。",
+	"pdfcreator-config-coverbackground-help": "为所有已设置默认intro-wrapper的PDF模板定义封面背景图像。图像必须是已上传到wiki的文件，或是有效的文件路径。",
+	"pdfcreator-droplet-no-export-description": "为内容添加开始和结束标签，以使这些标签内的所有内容在PDF文件中不可见",
+	"pdfcreator-template-edit-dlg-upload-error-unhandled": "在上传时发生未处理的异常",
+	"pdfcreator-template-edit-dlg-upload-error-duplicate": "与此文件相同的文件（$1）之前已被删除",
+	"pdfcreator-template-edit-dlg-footer-page-desc": "添加带有左侧、中间和右侧部分的文本的页脚",
+	"pdfcreator-template-edit-dlg-text-input-help-label": "您可以从已定义的参数中选择或输入自己的文本",
+	"pdfcreator-template-edit-dlg-general-page-desc": "定义您的模板名称和基本设置",
+	"pdfcreator-template-dlg-template-name-error-label": "此名称已用于模板",
+	"pdfcreator-template-edit-dlg-header-upload-btn-label": "上传PDF模板中的页眉图像",
+	"pdfcreator-template-edit-dlg-header-page-desc": "添加带有图像和文本的页眉，并定义页面布局",
+	"pdfcreator-template-edit-dlg-header-preview-text": "如果图像设置为靠左，则文本将显示在右侧。如果图像设置为靠右，则文本将显示在左侧",
+	"pdfcreator-template-edit-dlg-intro-upload-btn-label": "上传此页的背景图像",
+	"pdfcreator-template-edit-dlg-intro-page-desc": "创建包含图像、标题和可选文本的页面",
+	"pdfcreator-template-edit-dlg-outro-page-desc": "添加包含补充信息的附录",
+	"pdfcreator-template-edit-dlg-selection-page-desc": "选择要包含在PDF模板中的章节，并自定义其设置",
+	"pdfcreator-template-edit-source-dlg-no-compatibility-label": "模板$1似乎是手动编辑的，与对话框不兼容，无法进行编辑。",
+	"pdfcreator-edit-template-values-invalid-template": "没有有效的PDF模板标题",
+	"pdfcreator-edit-template-values-header-error": "页眉不匹配表格和类结构",
+	"pdfcreator-edit-template-values-footer-error": "页脚不匹配表格和类结构",
+	"pdfcreator-edit-template-values-intro-error": "文档前言未包含“pdfcreator-intro”类",
+	"pdfcreator-edit-template-values-outro-error": "文档附录未包含“pdfcreator-outro”类",
+	"pdfcreator-global-action-overview-desc": "Wiki中所有PDF模板概览"
 }
