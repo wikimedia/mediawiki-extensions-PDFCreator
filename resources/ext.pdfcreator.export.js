@@ -2,7 +2,7 @@
 
 ( function () {
 
-	$( document ).on( 'click', '#pdfcreator-export-dlg', ( e ) => {
+	$( document ).on( 'click', '.pdfcreator-export-page', ( e ) => {
 		e.preventDefault();
 		const config = require( './exportconfig.json' );
 		const templates = config.templates;

@@ -24,7 +24,7 @@ class ExportDialogButton extends SimpleLink {
 		parent::__construct( [
 			'id' => 'pdfcreator-export-dlg',
 			'role' => 'button',
-			'classes' => [ 'ico-btn', 'bi-file-earmark' ],
+			'classes' => [ 'ico-btn', 'bi-file-earmark', 'pdfcreator-export-page' ],
 			'href' => '',
 			'title' => Message::newFromKey( 'pdfcreator-dialog-button-title' ),
 			'aria-label' => Message::newFromKey( 'pdfcreator-dialog-button-text' ),
