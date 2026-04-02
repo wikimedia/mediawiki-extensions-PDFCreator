@@ -505,8 +505,8 @@
 		"MediaWikiServices": "setPDFContentModel",
 		"MWStakeCommonUIRegisterSkinSlotComponents": "discovery-skin",
 		"ParserFirstCallInit": [ "excludeStart", "excludeEnd", "exportPDF", "pagebreak" ],
-		"SkinTemplateNavigation::Universal": "addNewTemplate",
-		"BlueSpiceDiscoveryTemplateDataProviderAfterInit": "addNewTemplate"
+		"SkinTemplateNavigation::Universal": [ "addNewTemplate", "exportAction" ],
+		"BlueSpiceDiscoveryTemplateDataProviderAfterInit": [ "addNewTemplate", "exportAction" ]
 	},
 	"HookHandlers": {
 		"setPDFContentModel": {
@@ -535,6 +535,10 @@
 		"addNewTemplate": {
 			"class": "\\MediaWiki\\Extension\\PDFCreator\\MediaWiki\\Hook\\AddNewTemplate",
 			"services": [ "PermissionManager", "TitleFactory" ]
+		},
+		"exportAction": {
+			"class": "\\MediaWiki\\Extension\\PDFCreator\\MediaWiki\\Hook\\AddExportAction",
+			"services": [ "PermissionManager", "NamespaceInfo" ]
 		}
 	},
 	"ResourceFileModulePaths": {
