@@ -41,14 +41,23 @@ class FileResolver {
 	 * @return File|null
 	 */
 	public function execute( DOMElement $element, string $attrSrc = 'src' ): ?File {
+		$src = $element->getAttribute( $attrSrc );
+
+		// When wgThumbnailScriptPath is set, thumbnail src attributes are query-based:
+		// e.g. /w/thumb.php?f=Image.png&width=120
+		// The path-stripping logic below strips the query string early, making filename
+		// extraction impossible. Handle these URLs explicitly before that happens.
+		$file = $this->resolveFromThumbScript( $src );
+		if ( $file !== null ) {
+			return $file;
+		}
+
 		$pathsForRegex = [
 			$this->config->get( 'Server' ),
-			$this->config->get( 'ThumbnailScriptPath' ) . "?f=",
 			$this->config->get( 'UploadPath' ),
 			$this->config->get( 'ScriptPath' )
 		];
 
-		$src = $element->getAttribute( $attrSrc );
 		if ( strpos( $src, '?' ) ) {
 			$src = substr( $src, 0, strpos( $src, '?' ) );
 		}
@@ -82,6 +91,52 @@ class FileResolver {
 		}
 
 		return $file;
+	}
+
+	/**
+	 * Attempt to resolve a file from a ThumbnailScriptPath-style URL
+	 * (e.g. /w/thumb.php?f=Image.png&width=120).
+	 *
+	 * When $wgThumbnailScriptPath is configured, all thumbnail src attributes
+	 * are query-based rather than path-based, so the path-stripping logic in
+	 * execute() cannot extract a filename from them. This method handles that
+	 * case by reading the 'f' query parameter directly.
+	 *
+	 * @param string $src Raw value of the src/href attribute
+	 * @return File|null
+	 */
+	protected function resolveFromThumbScript( string $src ): ?File {
+		$thumbScriptPath = $this->config->get( 'ThumbnailScriptPath' );
+		if ( !$thumbScriptPath || strpos( $src, '?' ) === false ) {
+			return null;
+		}
+
+		// Compare only the path component so absolute URLs (with server prefix) also match.
+		$srcPath = parse_url( $src, PHP_URL_PATH ) ?? '';
+		$scriptPath = parse_url( $thumbScriptPath, PHP_URL_PATH ) ?? $thumbScriptPath;
+		if ( $srcPath !== $scriptPath ) {
+			return null;
+		}
+
+		$query = parse_url( $src, PHP_URL_QUERY ) ?? '';
+		parse_str( $query, $params );
+		$fileName = $params['f'] ?? '';
+		if ( $fileName === '' ) {
+			return null;
+		}
+
+		// Archived files have the format <timestamp>!<name> and need a different lookup.
+		if ( !empty( $params['archived'] ) ) {
+			return $this->findArchivedFile( $fileName );
+		}
+
+		$fileTitle = $this->titleFactory->newFromText( $fileName, NS_FILE );
+		if ( $fileTitle === null ) {
+			return null;
+		}
+
+		$file = $this->repoGroup->findFile( $fileTitle );
+		return ( $file && $file->exists() ) ? $file : null;
 	}
 
 	/**
