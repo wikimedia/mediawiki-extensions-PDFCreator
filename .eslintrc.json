@@ -5,6 +5,10 @@
 		"wikimedia/jquery",
 		"wikimedia/mediawiki"
 	],
+	"parserOptions": {
+		"sourceType": "commonjs",
+		"ecmaVersion": 2020
+	},
 	"globals": {
 		"ext": "readonly",
 		"OOJSPlus": "readonly",
@@ -16,10 +20,8 @@
 		"es-x/no-nullish-coalescing-operators": "off",
 		"es-x/no-string-prototype-matchall": "off",
 		"no-jquery/no-done-fail": "off",
+		"mediawiki/no-unlabeled-buttonwidget": "off",
 		"no-jquery/no-global-selector": "off",
 		"no-jquery/variable-pattern": "off"
-	},
-	"parserOptions": {
-		"ecmaVersion": 2020
 	}
 }

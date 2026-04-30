@@ -19,42 +19,9 @@ class ExcludeExportUpdater {
 
 			$dom = $page->getDOMDocument();
 			$xpath = new DOMXPath( $dom );
-			$excludeStartElements = $xpath->query( '//div[contains(@class, "pdfcreator-excludestart")]', $dom );
-			if ( !$excludeStartElements ) {
-				continue;
-			}
 
-			$pageToc = $this->getPageToc( $xpath );
-
-			foreach ( $excludeStartElements as $startSpan ) {
-				$parent = $startSpan->parentNode;
-				$sibling = $startSpan->nextSibling;
-				if ( $parent ) {
-					$this->removeNode( $parent, $startSpan, $xpath, $pageToc );
-				}
-
-				while ( $sibling ) {
-					$nextSibling = $sibling->nextSibling;
-
-					if ( $sibling->nodeType === XML_ELEMENT_NODE ) {
-						if ( $sibling->tagName === 'div' &&
-							str_contains( $sibling->getAttribute( 'class' ), 'pdfcreator-excludeend' )
-						) {
-							$this->removeNode( $parent, $sibling, $xpath, $pageToc );
-							break;
-						}
-					}
-
-					$hasEndChild = $xpath->query( ".//*[contains(@class, 'pdfcreator-excludeend')]", $sibling );
-					$this->removeNode( $parent, $sibling, $xpath, $pageToc );
-
-					if ( $hasEndChild->length > 0 ) {
-						break;
-					}
-
-					$sibling = $nextSibling;
-				}
-			}
+			$this->removeExcludeWrappers( $xpath );
+			$this->removeExcludeRanges( $xpath, $dom );
 		}
 	}
 
@@ -103,6 +70,76 @@ class ExcludeExportUpdater {
 					$removeTocListItem = $tocItem->item( 0 )->parentNode;
 					$removeTocListItem->parentNode->removeChild( $removeTocListItem );
 				}
+			}
+		}
+	}
+
+	/**
+	 * Remove all divs with class "wrapper-container wrapper-pdf-exclude".
+	 *
+	 * @param DOMXPath $xpath
+	 * @return void
+	 */
+	private function removeExcludeWrappers( DOMXPath $xpath ): void {
+		$wrappers = $xpath->query(
+			'//div[contains(@class, "wrapper-container") and contains(@class, "wrapper-pdf-exclude")]'
+		);
+		if ( !$wrappers ) {
+			return;
+		}
+
+		$pageToc = $this->getPageToc( $xpath );
+
+		foreach ( $wrappers as $wrapper ) {
+			$parent = $wrapper->parentNode;
+			if ( $parent ) {
+				$this->removeNode( $parent, $wrapper, $xpath, $pageToc );
+			}
+		}
+	}
+
+	/**
+	 * Remove content between pdfcreator-excludestart and pdfcreator-excludeend markers.
+	 *
+	 * @param DOMXPath $xpath
+	 * @param \DOMDocument $dom
+	 * @return void
+	 */
+	private function removeExcludeRanges( DOMXPath $xpath, \DOMDocument $dom ): void {
+		$excludeStartElements = $xpath->query( '//div[contains(@class, "pdfcreator-excludestart")]', $dom );
+		if ( !$excludeStartElements || $excludeStartElements->length === 0 ) {
+			return;
+		}
+
+		$pageToc = $this->getPageToc( $xpath );
+
+		foreach ( $excludeStartElements as $startSpan ) {
+			$parent = $startSpan->parentNode;
+			$sibling = $startSpan->nextSibling;
+			if ( $parent ) {
+				$this->removeNode( $parent, $startSpan, $xpath, $pageToc );
+			}
+
+			while ( $sibling ) {
+				$nextSibling = $sibling->nextSibling;
+
+				if ( $sibling->nodeType === XML_ELEMENT_NODE ) {
+					if ( $sibling->tagName === 'div' &&
+						str_contains( $sibling->getAttribute( 'class' ), 'pdfcreator-excludeend' )
+					) {
+						$this->removeNode( $parent, $sibling, $xpath, $pageToc );
+						break;
+					}
+				}
+
+				$hasEndChild = $xpath->query( ".//*[contains(@class, 'pdfcreator-excludeend')]", $sibling );
+				$this->removeNode( $parent, $sibling, $xpath, $pageToc );
+
+				if ( $hasEndChild->length > 0 ) {
+					break;
+				}
+
+				$sibling = $nextSibling;
 			}
 		}
 	}
