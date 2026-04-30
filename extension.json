@@ -506,7 +506,8 @@
 		"MWStakeCommonUIRegisterSkinSlotComponents": "discovery-skin",
 		"ParserFirstCallInit": [ "excludeStart", "excludeEnd", "exportPDF", "pagebreak" ],
 		"SkinTemplateNavigation::Universal": [ "addNewTemplate", "exportAction" ],
-		"BlueSpiceDiscoveryTemplateDataProviderAfterInit": [ "addNewTemplate", "exportAction" ]
+		"BlueSpiceDiscoveryTemplateDataProviderAfterInit": [ "addNewTemplate", "exportAction" ],
+		"MWStakeGenericTagHandlerInitTags": "registerTags"
 	},
 	"HookHandlers": {
 		"setPDFContentModel": {
@@ -539,6 +540,9 @@
 		"exportAction": {
 			"class": "\\MediaWiki\\Extension\\PDFCreator\\MediaWiki\\Hook\\AddExportAction",
 			"services": [ "PermissionManager", "NamespaceInfo" ]
+		},
+		"registerTags": {
+			"class": "MediaWiki\\Extension\\PDFCreator\\MediaWiki\\Hook\\RegisterTags"
 		}
 	},
 	"ResourceFileModulePaths": {
