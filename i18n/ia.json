@@ -35,8 +35,6 @@
 	"pdfcreator-config-default-pdf-template-help": "Configura le patrono predefinite pro le exportation de paginas. Le patrono debe exister como subpagina de MediaWiki:PDFCreator",
 	"pdfcreator-dialog-button-title": "Aperir dialogo Exportar",
 	"pdfcreator-dialog-button-text": "Exportar",
-	"pdfcreator-config-suppress-namespace": "Celar le prefixo del spatios de nomines in PDF",
-	"pdfcreator-config-suppress-namespace-help": "Remove le prefixo del spatio de nomines in titulos e in le parametro de patrono “title” in le sortita PDF",
 	"pdfcreator-config-coverbackground": "Imagine de fundo de copertura predefinite in patronos PDF",
 	"pdfcreator-config-coverbackground-help": "Defini un imagine de fundo de copertura pro tote le modellos PDF in le quales le inveloppe introductori predefinite non ha essite cambiate. Le imagine debe esser un file incargate in le wiki o un percurso valide a un file.",
 	"pdfcreator-pageparam-username": "Monstra le nomine de usator del exportator",
