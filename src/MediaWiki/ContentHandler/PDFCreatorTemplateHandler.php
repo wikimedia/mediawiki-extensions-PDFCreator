@@ -105,7 +105,7 @@ class PDFCreatorTemplateHandler extends TextContentHandler {
 		$title = $this->titleFactory->castFromPageReference( $pageRef );
 		$revision = $this->revisionLookup->getRevisionByTitle( $title, $revId );
 		if ( !$revision ) {
-			return $output->setRawText( 'No revision' );
+			return $output->setContentHolderText( 'No revision' );
 		}
 
 		$tabPanels = [];
@@ -136,7 +136,7 @@ class PDFCreatorTemplateHandler extends TextContentHandler {
 		}
 
 		if ( !$tabPanels ) {
-			return $output->setRawText( 'No tab panels' );
+			return $output->setContentHolderText( 'No tab panels' );
 		}
 
 		$indexLayout = new IndexLayout( [
@@ -170,7 +170,7 @@ class PDFCreatorTemplateHandler extends TextContentHandler {
 		$outputText = $skeleton . '<div id="pdf-creator-template-cnt" style="display:none;">' .
 			$description . $panel . '</div>';
 
-		$output->setRawText( $outputText );
+		$output->setContentHolderText( $outputText );
 	}
 
 	/**
