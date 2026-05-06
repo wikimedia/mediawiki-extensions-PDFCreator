@@ -20,9 +20,14 @@ class PDFTemplatesOverview extends OOJSGridSpecialPage {
 	 * @param TitleFactory $titleFactory
 	 */
 	public function __construct( PermissionManager $permissionManager, TitleFactory $titleFactory ) {
-		parent::__construct( 'PDFTemplatesOverview', 'edit' );
+		parent::__construct( 'PDFTemplatesOverview' );
 		$this->permissionManager = $permissionManager;
 		$this->titleFactory = $titleFactory;
+	}
+
+	/** @inheritDoc */
+	public function getRestriction(): string {
+		return 'edit';
 	}
 
 	/**
