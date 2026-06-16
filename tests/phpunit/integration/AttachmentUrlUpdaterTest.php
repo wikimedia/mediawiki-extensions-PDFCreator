@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use DOMDocument;
 use MediaWiki\Extension\PDFCreator\Utility\AttachmentUrlUpdater;
@@ -72,7 +72,7 @@ class AttachmentUrlUpdaterTest extends MediaWikiLangTestCase {
 	 * @return DOMDocument
 	 */
 	private function getDOMDocument(): DOMDocument {
-		$html = file_get_contents( __DIR__ . '/data/AttachmentUrlUpdaterTest-input.html' );
+		$html = file_get_contents( __DIR__ . '/../data/AttachmentUrlUpdaterTest-input.html' );
 		$dom = new DOMDocument();
 
 		$dom->loadXML( $html );
@@ -84,6 +84,6 @@ class AttachmentUrlUpdaterTest extends MediaWikiLangTestCase {
 	 * @return string
 	 */
 	private function getExpectedHtml(): string {
-		return file_get_contents( __DIR__ . '/data/AttachmentUrlUpdaterTest-output.html' );
+		return file_get_contents( __DIR__ . '/../data/AttachmentUrlUpdaterTest-output.html' );
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use DOMDocument;
 use MediaWiki\Extension\PDFCreator\Utility\ExportHtmlBuilder;
@@ -49,7 +49,7 @@ class ExportHtmlBuilderTest extends MediaWikiLangTestCase {
 	 * @return string
 	 */
 	private function getExpected(): string {
-		$xml = file_get_contents( __DIR__ . '/data/ExportHtmlBuilderTest-output.html' );
+		$xml = file_get_contents( __DIR__ . '/../data/ExportHtmlBuilderTest-output.html' );
 		$dom = new DOMDocument();
 		$dom->loadXML( $xml );
 		return $dom->saveXML( $dom->documentElement );

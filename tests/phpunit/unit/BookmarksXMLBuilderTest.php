@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Unit;
 
 use DOMDocument;
 use MediaWiki\Extension\PDFCreator\Utility\BookmarksXMLBuilder;

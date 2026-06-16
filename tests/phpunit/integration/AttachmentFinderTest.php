@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use DOMDocument;
 use File;
@@ -61,8 +61,8 @@ class AttachmentFinderTest extends MediaWikiIntegrationTestCase {
 	 * @return array
 	 */
 	private function getDefinitions(): array {
-		$html1 = file_get_contents( __DIR__ . '/data/AttachmentFinderTest-input-1.html' );
-		$html2 = file_get_contents( __DIR__ . '/data/AttachmentFinderTest-input-2.html' );
+		$html1 = file_get_contents( __DIR__ . '/../data/AttachmentFinderTest-input-1.html' );
+		$html2 = file_get_contents( __DIR__ . '/../data/AttachmentFinderTest-input-2.html' );
 		return [
 			[
 				'page',

@@ -206,6 +206,10 @@
 	"AutoloadNamespaces": {
 		"MediaWiki\\Extension\\PDFCreator\\": "src/"
 	},
+	"TestAutoloadNamespaces": {
+		"MediaWiki\\Extension\\PDFCreator\\Tests\\Unit\\": "tests/phpunit/unit/",
+		"MediaWiki\\Extension\\PDFCreator\\Tests\\Integration\\": "tests/phpunit/integration/"
+	},
 	"ExtensionMessagesFiles": {
 		"PDFTemplatesOverviewAlias": "languages/SpecialPDFTemplatesOverview.alias.php"
 	},

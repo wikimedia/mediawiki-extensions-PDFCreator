@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use BlueSpice\CloudClient\PDFTemplatePlaceholderParams\Title;
 use DOMDocument;
@@ -118,7 +118,7 @@ class FileResolverTest extends MediaWikiLangTestCase {
 	 * @return string
 	 */
 	private function getHtml(): string {
-		return file_get_contents( __DIR__ . '/data/FileResolverTest-input.html' );
+		return file_get_contents( __DIR__ . '/../data/FileResolverTest-input.html' );
 	}
 
 	/**

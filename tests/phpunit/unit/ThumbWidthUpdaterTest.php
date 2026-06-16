@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Unit;
 
 use DOMDocument;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
@@ -47,7 +47,7 @@ class ThumbWidthUpdaterTest extends TestCase {
 	 * @return DOMDocument
 	 */
 	private function getDOMDocument(): DOMDocument {
-		$html = file_get_contents( __DIR__ . '/data/ThumbWidthUpdater-input.html' );
+		$html = file_get_contents( __DIR__ . '/../data/ThumbWidthUpdater-input.html' );
 		$dom = new DOMDocument();
 
 		$dom->loadXML( $html );
@@ -59,6 +59,6 @@ class ThumbWidthUpdaterTest extends TestCase {
 	 * @return string
 	 */
 	private function getExpectedHtml(): string {
-		return file_get_contents( __DIR__ . '/data/ThumbWidthUpdater-output.html' );
+		return file_get_contents( __DIR__ . '/../data/ThumbWidthUpdater-output.html' );
 	}
 }
