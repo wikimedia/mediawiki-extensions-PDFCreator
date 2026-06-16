@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use MediaWiki\Extension\PDFCreator\Utility\UrlHelper;
 use MediaWiki\MainConfigNames;
