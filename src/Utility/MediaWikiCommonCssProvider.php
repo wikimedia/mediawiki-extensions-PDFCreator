@@ -9,19 +9,13 @@ use MediaWiki\Title\TitleFactory;
 
 class MediaWikiCommonCssProvider {
 
-	/** @var TitleFactory */
-	private $titleFactory;
-
-	/** @var RevisionLookup */
-	private $revisionLookup;
-
 	/**
 	 * @param TitleFactory $titleFactory
 	 * @param RevisionLookup $revisionLookup
 	 */
-	public function __construct( TitleFactory $titleFactory, RevisionLookup $revisionLookup ) {
-		$this->titleFactory = $titleFactory;
-		$this->revisionLookup = $revisionLookup;
+	public function __construct(
+		private readonly TitleFactory $titleFactory,
+		private readonly RevisionLookup $revisionLookup ) {
 	}
 
 	/**
@@ -40,6 +34,22 @@ class MediaWikiCommonCssProvider {
 			$css = $content->getText();
 		}
 
-		return $css;
+		return $this->sanitizeCSS( $css );
+	}
+
+	/**
+	 * ERM43013
+	 *
+	 * Removes font face declarations from common css because
+	 * absolute urls in font face breaks the pdf service.
+	 *
+	 * To use custom fonts in pdf export use css in pdf templates
+	 *
+	 * @param string $css
+	 *
+	 * @return string
+	 */
+	private function sanitizeCSS( string $css ): string {
+		return preg_replace( '/@font-face\s*{.*?}/si', '', $css );
 	}
 }
