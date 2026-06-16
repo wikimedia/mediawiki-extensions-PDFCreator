@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Unit;
 
 use MediaWiki\Extension\PDFCreator\Factory\ExportSpecificationFactory;
 use PHPUnit\Framework\TestCase;

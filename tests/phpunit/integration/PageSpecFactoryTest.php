@@ -1,20 +1,23 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use MediaWiki\Extension\PDFCreator\Factory\PageSpecFactory;
 use MediaWiki\MediaWikiServices;
-use PHPUnit\Framework\TestCase;
+use MediaWikiIntegrationTestCase;
 
 /**
- * @covers \MediaWiki\Extension\PDFCreator\Utility\PageSpecFactory
+ * @covers \MediaWiki\Extension\PDFCreator\Factory\PageSpecFactory
+ * @group Database
  */
-class PageSpecFactoryTest extends TestCase {
+class PageSpecFactoryTest extends MediaWikiIntegrationTestCase {
 
 	/** @var PageSpecFactory */
 	private PageSpecFactory $factory;
 
 	public function setUp(): void {
+		parent::setUp();
+
 		$services = MediaWikiServices::getInstance();
 
 		$this->factory = new PageSpecFactory(
