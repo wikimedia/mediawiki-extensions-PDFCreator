@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use MediaWiki\Extension\PDFCreator\Utility\MustacheTemplateParser;
 use MediaWikiLangTestCase;
@@ -17,7 +17,7 @@ class MustacheTemplateParserTest extends MediaWikiLangTestCase {
 		$parser = new MustacheTemplateParser();
 
 		$actual = $parser->execute(
-			__DIR__ . '/data',
+			__DIR__ . '/../data',
 			'content',
 			$this->getParams()
 		);

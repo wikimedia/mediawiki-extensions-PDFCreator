@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use DOMDocument;
 use MediaWiki\Extension\PDFCreator\Utility\UniqueHtmlIdMaker;
@@ -19,8 +19,8 @@ class UniqueHtmlIdMakerTest extends \MediaWikiIntegrationTestCase {
 
 		$prefix = '12345';
 
-		$input = file_get_contents( __DIR__ . '/data/UniqueHtmlIdMakerTest-input.html' );
-		$expected = file_get_contents( __DIR__ . '/data/UniqueHtmlIdMakerTest-output.html' );
+		$input = file_get_contents( __DIR__ . '/../data/UniqueHtmlIdMakerTest-input.html' );
+		$expected = file_get_contents( __DIR__ . '/../data/UniqueHtmlIdMakerTest-output.html' );
 
 		$dom = new DOMDocument();
 		$dom->loadXML( $input );

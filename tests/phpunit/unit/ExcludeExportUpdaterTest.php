@@ -1,6 +1,6 @@
 <?php
 
-namespace MediaWiki\Extension\PDFCreator\tests\phpunit;
+namespace MediaWiki\Extension\PDFCreator\Tests\Unit;
 
 use DOMDocument;
 use MediaWiki\Extension\PDFCreator\Utility\ExcludeExportUpdater;
@@ -19,7 +19,7 @@ class ExcludeExportUpdaterTest extends TestCase {
 	 * @return void
 	 */
 	public function testExecute() {
-		$result = file_get_contents( __DIR__ . '/data/ExcludeExportTest-output.html' );
+		$result = file_get_contents( __DIR__ . '/../data/ExcludeExportTest-output.html' );
 		$definition = $this->getDefinition();
 		$dom = new DOMDocument();
 		$dom->loadXML( $definition[1] );
@@ -34,7 +34,7 @@ class ExcludeExportUpdaterTest extends TestCase {
 	 * @return array
 	 */
 	private function getDefinition(): array {
-		$html = file_get_contents( __DIR__ . '/data/ExcludeExportTest-input.html' );
+		$html = file_get_contents( __DIR__ . '/../data/ExcludeExportTest-input.html' );
 
 		return [
 			'page',
