@@ -15,22 +15,12 @@ use Psr\Log\LoggerInterface;
 class ExportPageFactory implements LoggerAwareInterface {
 
 	/** @var LoggerInterface */
-	private $logger;
-
-	/** @var HtmlProviderFactory */
-	private $htmlProviderFactory;
-
-	/** @var PageParamsFactory */
-	private $pageParamsFactory;
+	private LoggerInterface $logger;
 
 	/**
 	 * @param HtmlProviderFactory $htmlProviderFactory
-	 * @param PageParamsFactory $pageParamsFactory
 	 */
-	public function __construct(
-		HtmlProviderFactory $htmlProviderFactory, PageParamsFactory $pageParamsFactory ) {
-		$this->htmlProviderFactory = $htmlProviderFactory;
-		$this->pageParamsFactory = $pageParamsFactory;
+	public function __construct( private readonly HtmlProviderFactory $htmlProviderFactory ) {
 	}
 
 	/**
@@ -42,7 +32,6 @@ class ExportPageFactory implements LoggerAwareInterface {
 	}
 
 	/**
-	 *
 	 * @param PageSpec $pageSpec
 	 * @param Template $template
 	 * @param ExportContext $context
@@ -61,7 +50,6 @@ class ExportPageFactory implements LoggerAwareInterface {
 		}
 
 		$label = $pageSpec->getLabel();
-		$heading = $dom->getElementById( $pageSpec->getUniqueId() );
 
 		$headings = $dom->getElementsByTagName( 'h1' );
 		foreach ( $headings as $heading ) {
