@@ -67,8 +67,7 @@ return [
 	},
 	'PDFCreator.ExportPageFactory' => static function ( MediaWikiServices $services ): ExportPageFactory {
 		return new ExportPageFactory(
-			$services->getService( 'PDFCreator.HtmlProviderFactory' ),
-			$services->getService( 'PDFCreator.PageParamsFactory' )
+			$services->getService( 'PDFCreator.HtmlProviderFactory' )
 		);
 	},
 	'PDFCreator.HtmlProviderFactory' => static function ( MediaWikiServices $services ): HtmlProviderFactory {
