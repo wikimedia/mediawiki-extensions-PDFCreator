@@ -58,7 +58,6 @@ class TableHeadsDuplicator {
 	}
 
 	/**
-	 *
 	 * @param DOMElement $table
 	 * @return array
 	 */
@@ -76,7 +75,6 @@ class TableHeadsDuplicator {
 	}
 
 	/**
-	 *
 	 * @param DOMElement $table
 	 * @return array
 	 */
@@ -94,7 +92,6 @@ class TableHeadsDuplicator {
 	}
 
 	/**
-	 *
 	 * @param DOMElement $table
 	 * @param array $rows
 	 * @param DOMElement $tableHead
