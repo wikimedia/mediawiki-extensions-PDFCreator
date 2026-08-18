@@ -10,7 +10,6 @@ use MediaWiki\Extension\PDFCreator\PDFCreator;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Extension\PDFCreator\Utility\ExportSpecification;
 use MediaWiki\Maintenance\Maintenance;
-use MediaWiki\MediaWikiServices;
 use MediaWiki\Parser\Sanitizer;
 use MediaWiki\Title\TitleFactory;
 use MediaWiki\User\UserFactory;
@@ -133,7 +132,7 @@ class DumpNamespaces extends Maintenance {
 	 * @return void
 	 */
 	private function setupServices(): void {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 		$this->titleFactory = $services->getTitleFactory();
 		$this->namespaceInfo = $services->getNamespaceInfo();
 		$this->userFactory = $services->getUserFactory();

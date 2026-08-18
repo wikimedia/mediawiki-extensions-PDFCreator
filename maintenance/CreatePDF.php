@@ -10,7 +10,6 @@ use MediaWiki\Extension\PDFCreator\IExportMode;
 use MediaWiki\Extension\PDFCreator\ITargetResult;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Maintenance\Maintenance;
-use MediaWiki\MediaWikiServices;
 
 $IP = dirname( __DIR__, 3 );
 
@@ -39,7 +38,7 @@ class CreatePDF extends Maintenance {
 	 * @return bool|null|void
 	 */
 	public function execute() {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 
 		$pdfCreator = $services->get( 'PDFCreator' );
 		if ( !$pdfCreator ) {

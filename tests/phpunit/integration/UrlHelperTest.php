@@ -4,7 +4,6 @@ namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use MediaWiki\Extension\PDFCreator\Utility\UrlHelper;
 use MediaWiki\MainConfigNames;
-use MediaWiki\MediaWikiServices;
 
 /**
  * @covers \MediaWiki\Extension\PDFCreator\Utility\UrlHelper
@@ -16,7 +15,7 @@ class UrlHelperTest extends \MediaWikiIntegrationTestCase {
 	 * @dataProvider provideUrls
 	 */
 	public function testGetTitleFromUrl( $url, $expected ) {
-		$services = MediaWikiServices::getInstance();
+		$services = $this->getServiceContainer();
 
 		$urlHelper = new UrlHelper(
 			$services->getMainConfig(), $services->getTitleFactory()
