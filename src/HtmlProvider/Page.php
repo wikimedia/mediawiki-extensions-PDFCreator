@@ -190,23 +190,12 @@ class Page extends Raw {
 		$pageParamsTitle = $pageSpec->getLabel();
 		if ( !isset( $data['force-label'] ) ) {
 			if ( $parserOutput ) {
-				$parserLabel = $this->getParserPageTitle( $parserOutput, $data );
+				$parserLabel = $this->getParserPageTitle( $parserOutput );
 				$pageParamsTitle = html_entity_decode( $parserLabel );
 			}
 
 			if ( !isset( $data['display-title'] ) ) {
-				$templateOptions = $template->getOptions();
-				if ( isset( $templateOptions['nsPrefix'] ) && $templateOptions['nsPrefix'] === true ) {
-					if ( !str_contains( $pageParamsTitle, $title->getPrefixedText() ) ) {
-						$pageParamsTitle = str_replace(
-							$title->getText(), $title->getPrefixedText(), $pageParamsTitle
-						);
-					}
-				} elseif ( !isset( $templateOptions['nsPrefix'] ) || $templateOptions['nsPrefix'] === false ) {
-					$pageParamsTitle = str_replace(
-						$title->getPrefixedText(), $title->getText(), $pageParamsTitle
-					);
-				}
+				$pageParamsTitle = $pageSpec->getLabel();
 			}
 		}
 		return htmlspecialchars( $pageParamsTitle );
