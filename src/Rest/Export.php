@@ -6,10 +6,12 @@ use MediaWiki\Context\RequestContext;
 use MediaWiki\Extension\PDFCreator\Factory\ExportSpecificationFactory;
 use MediaWiki\Extension\PDFCreator\Factory\ModeFactory;
 use MediaWiki\Extension\PDFCreator\Factory\TemplateProviderFactory;
+use MediaWiki\Extension\PDFCreator\IShowNamespaceAware;
 use MediaWiki\Extension\PDFCreator\ITargetResult;
 use MediaWiki\Extension\PDFCreator\PDFCreator;
 use MediaWiki\Extension\PDFCreator\Utility\BoolValueGet;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
+use MediaWiki\Extension\PDFCreator\Utility\PageLabelHelper;
 use MediaWiki\Permissions\PermissionManager;
 use MediaWiki\Rest\SimpleHandler;
 use MediaWiki\Title\Title;
@@ -118,23 +120,41 @@ class Export extends SimpleHandler {
 		}
 		$options = $template->getOptions();
 
-		$title = $relevantTitle->getText();
-		if ( isset( $options['nsPrefix'] ) && BoolValueGet::from( $options['nsPrefix'] ) === true ) {
-			$title = $relevantTitle->getPrefixedText();
+		// Fallback for nsPrefix, which is deprecated and replaced by show-namespace
+		if ( isset( $options['nsPrefix'] ) && !isset( $options['show-namespace'] ) ) {
+			$options['show-namespace'] = $options['nsPrefix'];
 		}
+
+		$showNamespace = false;
+		if ( isset( $options['show-namespace'] ) && BoolValueGet::from( $options['show-namespace'] ) === true ) {
+			$showNamespace = true;
+		}
+
+		$PageLabelHelper = new PageLabelHelper();
+		$title = $PageLabelHelper->getTitleText(
+			$relevantTitle,
+			$relevantTitle->getPrefixedText(),
+			$showNamespace
+		);
 
 		$params = [
 			'mode' => $mode,
 			'template' => $template ? $data['template'] : null,
 			'title' => $title,
-			'filename' => $relevantTitle->getPrefixedDBkey() . '.pdf'
+			'filename' => $title . '.pdf'
 		];
 
 		$modeProvider = $this->modeFactory->getModeProvider( $mode );
+		if ( $modeProvider instanceof IShowNamespaceAware ) {
+			$modeProvider->setShowNamespace( $showNamespace );
+		}
+
 		$pages = $modeProvider->getExportPages( $this->exportTitle, $data );
+
 		if ( $mode === 'page' || $mode === 'pageWithLinkedPages' || $mode === 'pageWithSubpages' ) {
 			$mode = 'batch';
 		}
+
 		$specParams = [
 			'params' => $params,
 			'pages' => $pages,
