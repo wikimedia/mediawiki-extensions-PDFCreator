@@ -3,6 +3,7 @@
 namespace MediaWiki\Extension\PDFCreator\Tests\Integration;
 
 use File;
+use MediaWiki\Content\TextContent;
 use MediaWiki\Extension\PDFCreator\PDFCreatorUtil;
 use MediaWiki\Extension\PDFCreator\TemplateProvider\Wiki;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
@@ -10,7 +11,6 @@ use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Revision\RevisionRecord;
 use MediaWiki\User\UserIdentityValue;
 use RepoGroup;
-use TextContent;
 
 /**
  * @group medium
