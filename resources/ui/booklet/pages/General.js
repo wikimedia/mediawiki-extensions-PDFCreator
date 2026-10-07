@@ -51,8 +51,8 @@ ext.pdfcreator.ui.booklet.pages.General.prototype.getElements = function () {
 		]
 	} );
 
-	this.ShowPrefixInput = new OO.ui.CheckboxInputWidget( {
-		selected: this.data.options.showPrefix ?? true
+	this.showNamespaceInput = new OO.ui.CheckboxInputWidget( {
+		selected: this.data.options[ 'show-namespace' ] ?? true
 	} );
 	this.TOCSelectInput = new OO.ui.CheckboxInputWidget( {
 		selected: this.data.options[ 'embed-page-toc' ] ?? true

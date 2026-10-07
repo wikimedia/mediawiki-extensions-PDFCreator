@@ -80,9 +80,6 @@ class PDFCreatorUtil {
 		if ( $titleNS !== NS_MEDIAWIKI ) {
 			return false;
 		}
-		if ( $title->isRedirect() || $title->getDeletedEditsCount() > 0 ) {
-			return false;
-		}
 		$titleParts = explode( '/', $title->getText() );
 		if ( $titleParts[0] !== 'PDFCreator' ) {
 			return false;
