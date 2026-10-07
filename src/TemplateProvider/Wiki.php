@@ -82,6 +82,9 @@ class Wiki implements ITemplateProvider {
 		$revId = $templateTitle->getLatestRevID();
 
 		$revision = $this->revisionLookup->getRevisionByTitle( $templateTitle, $revId );
+		if ( $revision === null ) {
+			return null;
+		}
 		$this->templateContent = [];
 		foreach ( $this->util->slots as $slot ) {
 			$content = $revision->getContent( $this->util->templatePrefix . $slot );
