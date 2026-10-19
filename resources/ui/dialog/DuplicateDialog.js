@@ -59,25 +59,33 @@ ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.initialize = function () {
 	this.updateSize();
 };
 
+ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.getBodyHeight = function () {
+	return this.panel.$element.outerHeight( true );
+};
+
 ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.getActionProcess = function ( action ) {
 	return ext.pdfcreator.ui.dialog.DuplicateDialog.parent.prototype.getActionProcess.call(
 		this, action )
 		.next(
 			function () {
-				this.pushPending();
-				const dfd = $.Deferred();
 				if ( action === 'duplicate' ) {
+					const dfd = $.Deferred();
 					this.checkTitle().done( () => {
 						this.duplicate().done( () => {
+							dfd.resolve();
 							this.close();
 							this.emit( 'copied' );
 						} ).fail( ( error ) => {
-							this.popPending();
-							this.showErrors( error );
+							dfd.reject( error );
 						} );
-					} ).fail( () => {
-						this.popPending();
-						this.actions.setAbilities( { duplicate: false } );
+					} ).fail( ( error ) => {
+						if ( error === 'exists' ) {
+							// Error is already shown inline; resolve to release the pending state
+							this.actions.setAbilities( { duplicate: false } );
+							dfd.resolve();
+						} else {
+							dfd.reject( [ new OO.ui.Error( String( error ), { recoverable: false } ) ] );
+						}
 					} );
 					return dfd.promise();
 				}
@@ -98,12 +106,12 @@ ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.duplicate = function () {
 			api.save( this.titleInput.getValue(), data )
 				.done( () => {
 					dfd.resolve();
-				} ).fail( () => {
-					dfd.reject( [ new OO.ui.Error( arguments[ 0 ], { recoverable: false } ) ] );
+				} ).fail( ( error ) => {
+					dfd.reject( [ new OO.ui.Error( String( error ), { recoverable: false } ) ] );
 				} );
 		} );
 	} ).fail( ( error ) => {
-		dfd.reject( error );
+		dfd.reject( [ new OO.ui.Error( String( error ), { recoverable: false } ) ] );
 	} );
 	return dfd.promise();
 };
@@ -125,15 +133,16 @@ ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.getContent = function () {
 
 			if ( pageInfo.missing || !pageInfo.revisions ||
 				!pageInfo.revisions[ 0 ] || !pageInfo.revisions[ 0 ].slots ) {
-				dfd.reject( resp );
+				dfd.reject( 'missing' );
+				return;
 			}
 			const data = {};
 			for ( const slot in pageInfo.revisions[ 0 ].slots ) {
 				data[ slot ] = pageInfo.revisions[ 0 ].slots[ slot ][ '*' ];
 			}
 			dfd.resolve( data );
-		} ).fail( () => {
-			dfd.reject( [ new OO.ui.Error( arguments[ 0 ], { recoverable: false } ) ] );
+		} ).fail( ( error ) => {
+			dfd.reject( error );
 		} );
 	} );
 	return dfd.promise();
@@ -141,11 +150,9 @@ ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.getContent = function () {
 
 ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.onTitleSet = function ( title ) {
 	this.titleInputField.setErrors( [] );
-	if ( title.length ) {
-		this.actions.setAbilities( { duplicate: true } );
-	} else {
-		this.actions.setAbilities( { duplicate: false } );
-	}
+	this.titleInput.setValidityFlag( true );
+	this.actions.setAbilities( { duplicate: title.length > 0 } );
+	this.updateSize();
 };
 
 ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.checkTitle = function () {
@@ -165,6 +172,7 @@ ext.pdfcreator.ui.dialog.DuplicateDialog.prototype.checkTitle = function () {
 				} else {
 					this.titleInput.setValidityFlag( false );
 					this.titleInputField.setErrors( [ mw.message( 'pdfcreator-template-dlg-template-name-error-label' ).text() ] );
+					this.updateSize();
 					deferred.reject( 'exists' );
 				}
 			}
