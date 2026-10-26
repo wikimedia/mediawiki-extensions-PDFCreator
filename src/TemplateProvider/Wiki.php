@@ -9,9 +9,9 @@ use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Extension\PDFCreator\Utility\LessVarsReplacer;
 use MediaWiki\Extension\PDFCreator\Utility\Template;
 use MediaWiki\Extension\PDFCreator\Utility\TemplateResources;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Revision\RevisionLookup;
 use MediaWiki\Title\TitleFactory;
-use RepoGroup;
 
 class Wiki implements ITemplateProvider {
 

@@ -7,10 +7,10 @@ use File;
 use MediaWiki\Extension\PDFCreator\Utility\AttachmentFinder;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\WikiFileResource;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWiki\Title\Title;
 use MediaWikiIntegrationTestCase;
-use RepoGroup;
 
 /**
  * @covers \MediaWiki\Extension\PDFCreator\Utility\AttachmentFinder::execute

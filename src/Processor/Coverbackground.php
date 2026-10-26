@@ -10,8 +10,8 @@ use MediaWiki\Extension\PDFCreator\PDFCreator;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\UncollideFilename;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Title\TitleFactory;
-use RepoGroup;
 
 /**
  * Add a background image to pdfcreator-type-intro

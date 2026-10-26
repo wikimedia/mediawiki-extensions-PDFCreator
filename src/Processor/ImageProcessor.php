@@ -10,8 +10,8 @@ use MediaWiki\Extension\PDFCreator\Utility\ImageFinder;
 use MediaWiki\Extension\PDFCreator\Utility\ImageUrlUpdater;
 use MediaWiki\Extension\PDFCreator\Utility\ImageWidthUpdater;
 use MediaWiki\Extension\PDFCreator\Utility\ThumbWidthUpdater;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Title\TitleFactory;
-use RepoGroup;
 
 class ImageProcessor implements IProcessor {
 
