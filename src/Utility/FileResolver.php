@@ -5,8 +5,8 @@ namespace MediaWiki\Extension\PDFCreator\Utility;
 use DOMElement;
 use File;
 use MediaWiki\Config\Config;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Title\TitleFactory;
-use RepoGroup;
 
 /**
  * @stable to extend

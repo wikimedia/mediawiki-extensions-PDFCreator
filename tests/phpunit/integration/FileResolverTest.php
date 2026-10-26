@@ -8,9 +8,9 @@ use DOMElement;
 use File;
 use MediaWiki\Config\Config;
 use MediaWiki\Extension\PDFCreator\Utility\FileResolver;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\MainConfigNames;
 use MediaWikiLangTestCase;
-use RepoGroup;
 
 /**
  * @covers \MediaWiki\Extension\PDFCreator\Utility\FileResolver::execute

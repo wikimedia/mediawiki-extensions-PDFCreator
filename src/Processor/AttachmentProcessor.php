@@ -10,8 +10,8 @@ use MediaWiki\Extension\PDFCreator\Utility\BoolValueGet;
 use MediaWiki\Extension\PDFCreator\Utility\ExportContext;
 use MediaWiki\Extension\PDFCreator\Utility\ExportPage;
 use MediaWiki\Extension\PDFCreator\Utility\WikiFileResource;
+use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Title\TitleFactory;
-use RepoGroup;
 
 class AttachmentProcessor implements IProcessor {
 
