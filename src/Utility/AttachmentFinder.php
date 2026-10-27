@@ -5,7 +5,7 @@ namespace MediaWiki\Extension\PDFCreator\Utility;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
-use OldLocalFile;
+use MediaWiki\FileRepo\File\OldLocalFile;
 
 class AttachmentFinder extends ImageFinder {
 
