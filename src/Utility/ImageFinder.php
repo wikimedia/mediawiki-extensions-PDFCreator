@@ -6,9 +6,9 @@ use DOMDocument;
 use DOMElement;
 use DOMXPath;
 use MediaWiki\Config\Config;
+use MediaWiki\FileRepo\File\OldLocalFile;
 use MediaWiki\FileRepo\RepoGroup;
 use MediaWiki\Title\TitleFactory;
-use OldLocalFile;
 
 class ImageFinder {
 
