@@ -2,7 +2,7 @@
 
 namespace MediaWiki\Extension\PDFCreator\MediaWiki\Action;
 
-use EditAction;
+use MediaWiki\Actions\EditAction;
 use MediaWiki\Content\TextContent;
 use MediaWiki\Extension\PDFCreator\MediaWiki\Content\PDFCreatorTemplate;
 use MediaWiki\Html\Html;
