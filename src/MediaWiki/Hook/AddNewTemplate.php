@@ -4,8 +4,8 @@ namespace MediaWiki\Extension\PDFCreator\MediaWiki\Hook;
 
 use MediaWiki\Hook\SkinTemplateNavigation__UniversalHook;
 use MediaWiki\Permissions\PermissionManager;
+use MediaWiki\Skin\SkinTemplate;
 use MediaWiki\Title\TitleFactory;
-use SkinTemplate;
 
 class AddNewTemplate implements SkinTemplateNavigation__UniversalHook {
 
